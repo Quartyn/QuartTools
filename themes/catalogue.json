@@ -1,0 +1,11 @@
+{
+    "server": {
+        "files": "file/",
+        "icons": "icon/"
+    },
+    "themes": [
+        {
+
+        }
+    ]
+}

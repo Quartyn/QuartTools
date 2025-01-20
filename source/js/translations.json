@@ -1,0 +1,155 @@
+{
+    "en": {
+        "layout.navigation.services": "Services",
+        "layout.navigation.themes": "Themes",
+        "layout.navigation.music": "Music",
+        "layout.navigation.feedback": "Feedback",
+        "layout.navigation.settings": "Settings",
+        "layout.navigation.exit": "Exit",
+
+        "layout.check_more": "Check more",
+
+        "services.page_title": "Services",
+
+        "themes.page_title": "Themes",
+        "themes.search_bar": "Search for Themes",
+        "themes.request_button": "Request Theme",
+        "themes.manager.page_title": "Themes manager",
+        "themes.manager.close_button": "Close themes manager",
+        "themes.manager.request_button": "Request new theme",
+        "themes.manager.request_url": "Website url • (https://WebsiteIWantThemeFor.com)",
+        "themes.manager.request_message": "Optional message for developer (optional)",
+        "themes.manager.submit_button": "Submit request",
+        "themes.manager.list_title": "Requested themes by community",
+
+        "music.page_title": "Music",
+        "music.vibes_title": "Enjoy vibes while browsing overlay!",
+        "music.vibes_description": "Playlists made by Quartyn.",
+        "music.load_playlists_button": "Load playlists",
+        "music.playlists_info": "Playlists were hidden behind 'Load playlists' button, to increase page performance while using QuartTools.",
+
+        "feedback.page_title": "Leave feedback",
+        "feedback.clear_button": "Clear form",
+        "feedback.submit_button": "Submit feedback",
+
+        "settings.page_title": "Settings",
+        "settings.reset-options": "Reset all settings",
+
+        "settings.language.title": "Language",
+        "settings.language.contribute": "",
+
+        "settings.theme.title": "Theme",
+        "theme.dark": "Dark",
+        "theme.amoled": "Amoled",
+
+        "settings.colors.title": "Colors",
+        "colors.blurple": "Blurple",
+        "colors.purple": "Purple",
+        "colors.pink": "Pink",
+        "colors.blue": "Blue",
+        "colors.aqua": "Aqua",
+        "colors.lime": "Lime",
+        "colors.green": "Green",
+        "colors.yellow": "Yellow",
+        "colors.orange": "Orange",
+        "colors.red": "Red",
+        "colors.custom": "Custom",
+
+        "settings.navigation.title": "Navigation",
+        "navigation.sidebar": "Sidebar",
+        "navigation.modern": "Modern",
+
+        "settings.themes-title": "Themes",
+        "options.themes.disable_notifications": "Disable notifications",
+        "options.themes.disable_notifications_message": "Don't show notifications when theme is available for website.",
+        "options.themes.show_details": "Show details",
+        "options.themes.show_details_message": "Shows additional details for every theme.",
+        "options.themes.hide_tags": "Hide Tags",
+        "options.themes.hide_tags.message": "All Tags like `New, Beta, Update` will be hidden.",
+        "settings.coming-soon": "More settings are coming soon.",
+
+        "authentication.welcome_title": "Welcome to ${appName}.",
+        "authentication.welcome_description": "Login or register to gain access to services.",
+        "authentication.login.username_or_email": "Username or email",
+        "authentication.login.password": "Password",
+        "authentication.login.recommended_text": "I recommend logging in on web {{website}}, so when you log in, you can save your credentials.",
+        "authentication.login_button": "Log In",
+        "authentication.register_button": "Register",
+        "authentication.lost_password_button": "I lost my password",
+        "authentication.login_with_account": "Login with existing account"
+    },
+    "sk": {
+        "language.name": "Slovenčina",
+
+        "layout.navigation.services": "Služby",
+        "layout.navigation.themes": "Témy",
+        "layout.navigation.music": "Hudba",
+        "layout.navigation.feedback": "Spätná väzba",
+        "layout.navigation.settings": "Nastavenia",
+        "layout.navigation.exit": "Ukončiť",
+
+        "services.page_title": "Služby",
+
+        "themes.search_bar": "Vyhľadať tému",
+        "themes.request_button": "Požiadať o tému",
+        "themes.manager.page_title": "Manažér tém",
+        "themes.manager.close_button": "Zatvoriť manažér tém",
+        "themes.manager.request_button": "Požiadať o novú tému",
+        "themes.manager.request_url": "URL webstránky • (https://StránkaPreKtorúChcemTému.com)",
+        "themes.manager.request_message": "Dobrovoľná správa pre developera (dobrovoľná)",
+        "themes.manager.submit_button": "Odoslať žiadosť",
+        "themes.manager.list_title": "Požiadané témy komunitou",
+
+        "music.page_title": "Hudba",
+
+        "feedback.page_title": "Zanechať spätnú väzbu",
+        "feedback.clear_button": "Vyčistiť",
+        "feedback.submit_button": "Odoslať spätnú väzbu",
+
+        "settings.page_title": "Nastavenia",
+        "settings.reset-options": "Obnoviť všetky nastavenia",
+
+        "settings.language.title": "Jazyk",
+        "settings.language.contribute": "",
+
+        "settings.theme.title": "Motív",
+        "theme.dark": "Tmavý",
+        "theme.amoled": "Amoled",
+
+        "settings.colors.title": "Farba",
+        "colors.blurple": "Blurple",
+        "colors.purple": "Fialová",
+        "colors.pink": "Rúžová",
+        "colors.blue": "Modrá",
+        "colors.aqua": "Aqua",
+        "colors.lime": "Limetková",
+        "colors.green": "Zelená",
+        "colors.yellow": "Žltá",
+        "colors.orange": "Oranžová",
+        "colors.red": "Červená",
+        "colors.custom": "Vlastná",
+
+        "settings.navigation.title": "Navigácia",
+        "navigation.sidebar": "Bočný panel",
+        "navigation.modern": "Moderná",
+
+        "settings.themes-title": "Témy",
+        "options.themes.disable_notifications": "Zakázať upozornenia",
+        "options.themes.disable_notifications_message": "Nezobrazovať upozornenie ak je téma dostupná pre danú webstránku.",
+        "options.themes.show_details": "Zobrazovať detaily",
+        "options.themes.show_details_message": "Zobrazovať bonusové informácie pre každú tému.",
+        "options.themes.hide_tags": "Schovať značky (tagy)",
+        "options.themes.hide_tags.message": "Všetky značky ako `New, Beta, Update` budú skryté.",
+        "settings.coming-soon": "Viac možností už čoskoro.",
+
+        "authentication.welcome_title": "Vitaj.",
+        "authentication.welcome_description": "Ak chceš získať prístup k službám, prihlás sa alebo sa zaregistruj.",
+        "authentication.login.username_or_email": "Používateľské meno alebo email",
+        "authentication.login.password": "Heslo",
+        "authentication.login.recommended_text": "Odporúčam sa prihlasovať na webe {{website}}, takže keď sa prihlásiš, budeš môcť uložiť svoje prihlasovacie údaje.",
+        "authentication.login_button": "Prihlásiť sa",
+        "authentication.register_button": "Zaregistrovať sa",
+        "authentication.lost_password_button": "Stratil som svoje heslo",
+        "authentication.login_with_account": "Prihlásiť sa s existujúcim účtom"
+    }
+}

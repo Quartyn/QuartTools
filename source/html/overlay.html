@@ -1,0 +1,568 @@
+<div class="qua-overlay">
+    <div class="q-outerlay" qua-action="overlay/close" qua-overlay-action="overlay.close"></div>
+    <div class="q-overlay">
+        <div class="qwin-popup"></div>
+        <div class="qua-notifications"></div>
+        <div class="qua-overlay-popup">
+            <div class="qua-overlay-popup-outerlay"></div>
+            <div class="qua-overlay-popup-container">
+                <p class="qua-overlay-popup-title">Google Photos</p>
+                <p class="qua-overlay-popup-message">Customization for this theme is currently unsupported.</p>
+                <p class="qua-overlay-popup-message">If you show your love for this theme through feedback, there's a chance I'll finish this theme for you sooner :).</p>
+                <div class="qua-overlay-popup-controls">
+                    <button class="qua-overlay-button-secondary">Ok, I understand</button>
+                    <button class="qua-overlay-button">Submit feedback</button>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="q-loading">
+            <div>
+                <div class="qloader"></div>
+                <p style="color: #fff; display: block; padding: 30px;">Loading..</p>
+            </div>
+        </div>
+        <div class="qua-loading-bar">
+            <div class="qloading-bar" qprogress="0">
+                <div class="qstatus"></div>
+            </div>
+        </div> -->
+        <nav class="qua-navigation qnav">
+            <div class="qua-navigation-links qnav-links">
+                <qua-button role="button" tabindex="0" aria-current="false" aria-label="My account" qua-overlay-action="navigation-tab" class="qua-overlay-user" qlinkid="account">
+                    <div class="qua-overlay-user__image">
+                        <qua-button class="qua-overlay-account-picture qua-overlay-navigation-profile-picture">
+                            <div class="qua-overlay-account-picture_image" qua-data-id="user://image -default"></div>
+                            <div class="qua-overlay-account-picture_image" qua-data-id="user://image"></div>
+                        </qua-button>
+                    </div>
+                    <div class="qua-overlay-user__data">
+                        <qua-label class="qua-overlay-user__data-container">
+                            <span class="qua-overlay-user__data-name" qua-overlay-action="user.fullname">Loading..</span>
+                        </qua-label>
+                    </div>
+                </qua-button>
+                <qua-separator></qua-separator>
+                <qlink-group qscroll>
+                    <qua-button role="button" tabindex="0" aria-current="true" aria-label="Services" qua-overlay-action="navigation-tab" class="qua-navigation-link" qlinkid="services">
+                        <svg qua-source:google-material-icons xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 13H5c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2zM7 19c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM19 3H5c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM7 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+                        <qua-label class="qua-navigation-link-title" qua-overlay-translate="layout.navigation.services">Services</qua-label>
+                    </qua-button>
+                    <qua-button role="button" tabindex="0" aria-current="false" aria-label="Themes" qua-overlay-action="navigation-tab" class="qua-navigation-link" qlinkid="themes">
+                        <svg qua-source:google-material-icons xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="20px" viewBox="0 0 24 24" width="20px" fill="currentColor"><g><rect fill="none" height="24" width="24"/></g><g><path d="M12,2C6.49,2,2,6.49,2,12s4.49,10,10,10c1.38,0,2.5-1.12,2.5-2.5c0-0.61-0.23-1.2-0.64-1.67c-0.08-0.1-0.13-0.21-0.13-0.33 c0-0.28,0.22-0.5,0.5-0.5H16c3.31,0,6-2.69,6-6C22,6.04,17.51,2,12,2z M17.5,13c-0.83,0-1.5-0.67-1.5-1.5c0-0.83,0.67-1.5,1.5-1.5 s1.5,0.67,1.5,1.5C19,12.33,18.33,13,17.5,13z M14.5,9C13.67,9,13,8.33,13,7.5C13,6.67,13.67,6,14.5,6S16,6.67,16,7.5 C16,8.33,15.33,9,14.5,9z M5,11.5C5,10.67,5.67,10,6.5,10S8,10.67,8,11.5C8,12.33,7.33,13,6.5,13S5,12.33,5,11.5z M11,7.5 C11,8.33,10.33,9,9.5,9S8,8.33,8,7.5C8,6.67,8.67,6,9.5,6S11,6.67,11,7.5z"/></g></svg>
+                        <qua-label class="qua-navigation-link-title" qua-overlay-translate="layout.navigation.themes">Themes</qua-label>
+                    </qua-button>
+                    <qua-button role="button" tabindex="0" aria-current="false" aria-label="Music" qua-overlay-action="navigation-tab" class="qua-navigation-link" qlinkid="music">
+                        <svg qua-source:google-material-icons xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/></svg>
+                        <qua-label class="qua-navigation-link-title" qua-overlay-translate="layout.navigation.music">Music</qua-label>
+                    </qua-button>
+                    <qua-button role="button" tabindex="0" aria-current="false" aria-label="Feedback" qua-overlay-action="navigation-tab" class="qua-navigation-link" qlinkid="feedback">
+                        <svg qua-source:google-material-icons xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM9 11H7V9h2v2zm4 0h-2V9h2v2zm4 0h-2V9h2v2z"/></svg>
+                        <qua-label class="qua-navigation-link-title" qua-overlay-translate="layout.navigation.feedback">Feedback</qua-label>
+                    </qua-button>
+                </qlink-group>
+                <qlink-group style="margin-top: auto;">
+                    <qua-separator></qua-separator>
+                    <!-- <qua-button role="button" tabindex="0" aria-pressed="false" class="qua-navigation-link qnav-link-controle" aria-label="Collapse/expand navigation" qua-action="overlay/expand" qlinkid="expand">
+                        <svg qua-source:google-material-icons xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none" opacity=".87"/><path d="M6.29 8.11L10.18 12l-3.89 3.89c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l4.59-4.59c.39-.39.39-1.02 0-1.41L7.7 6.7c-.39-.39-1.02-.39-1.41 0-.38.39-.38 1.03 0 1.41zM17 6c.55 0 1 .45 1 1v10c0 .55-.45 1-1 1s-1-.45-1-1V7c0-.55.45-1 1-1z"/></svg>
+                        <qua-label class="qua-navigation-link-title">Collapse</qua-label>
+                    </qua-button> -->
+                    <qua-button role="button" tabindex="0" aria-current="false" aria-label="Open overlay settings" qua-overlay-action="navigation-tab" class="qua-navigation-link qnav-link-controle" qua-action="overlay/settings" qlinkid="settings">
+                        <svg qua-source:google-material-icons xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="20px" viewBox="0 0 24 24" width="20px" fill="currentColor"><g><rect fill="none" height="24" width="24"/><rect fill="none" height="24" width="24"/></g><g><g><path d="M20,3H4C2.9,3,2,3.9,2,5v12c0,1.1,0.89,2,2,2h4v1c0,0.55,0.45,1,1,1h6c0.55,0,1-0.45,1-1v-1h4c1.1,0,2-0.9,2-2V5 C22,3.89,21.1,3,20,3z M20,17H4V5h16V17z"/><rect height="1.5" width="8" x="6" y="8.25"/><polygon points="16.5,9.75 18,9.75 18,8.25 16.5,8.25 16.5,7 15,7 15,11 16.5,11"/><rect height="1.5" width="8" x="10" y="12.25"/><polygon points="7.5,15 9,15 9,11 7.5,11 7.5,12.25 6,12.25 6,13.75 7.5,13.75"/></g></g></svg>
+                        <qua-label class="qua-navigation-link-title" qua-overlay-translate="layout.navigation.settings">Settings</qua-label>
+                    </qua-button>
+                    <qua-button role="button" tabindex="0" class="qnav-link-closes qua-navigation-link" aria-label="Close QuartTools Overlay" qua-overlay-action="overlay.close" qua-action="overlay/close" qlinkid="close">
+                        <svg qua-source:google-material-icons xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="20px" viewBox="0 0 24 24" width="20px" fill="currentColor"><g><path d="M0,0h24v24H0V0z" fill="none"/></g><g><g><path d="M5,5h6c0.55,0,1-0.45,1-1v0c0-0.55-0.45-1-1-1H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h6c0.55,0,1-0.45,1-1v0 c0-0.55-0.45-1-1-1H5V5z"/><path d="M20.65,11.65l-2.79-2.79C17.54,8.54,17,8.76,17,9.21V11h-7c-0.55,0-1,0.45-1,1v0c0,0.55,0.45,1,1,1h7v1.79 c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79C20.84,12.16,20.84,11.84,20.65,11.65z"/></g></g></svg>
+                        <qua-label class="qua-navigation-link-title" qua-overlay-translate="layout.navigation.exit">Exit</qua-label>
+                    </qua-button>
+                </qlink-group>
+            </div>
+        </nav>
+        <div class="qua-overlay__body">
+            <div class="qua-overlay__body--page" qua-overlay-page="account" aria-current="false">
+                <header class="qua-overlay-account--header">
+                    <p class="qua-overlay-account--header-title">Account</p>
+                    <div class="qua-overlay-account--header-controls">
+                        <button class="qua-overlay-button-secondary">Refresh my data</button>
+                        <a href="https://quartyn.com/account/" target="_blank" class="qua-overlay-button">Edit</a>
+                    </div>
+                </header>
+                <section class="qua-overlay-account--data">
+                    <qua-button class="qua-overlay-account-picture">
+                        <div class="qua-overlay-account-picture_image" qua-data-id="user://image -default"></div>
+                        <div class="qua-overlay-account-picture_image" qua-data-id="user://image"></div>
+                    </qua-button>
+                    <div class="qua-overlay-account--informations">
+                        <div class="qua-overlay-account_category">
+                            <qua-label title="Your full name" class="qua-overlay-account_username" id="overlay://displayName" qua-overlay-action="user.fullname">Loading..</qua-label>
+                            <qua-label title="Your unique username" class="qua-overlay-account_handler" qua-overlay-action="user.username">Loading..</qua-label>
+                        </div>
+                    </div>
+                </section>
+                <section class="qua-overlay-account-zone">
+                    <p class="qua-overlay-account-zone">Danger Zone</p>
+                    <div class="qua-overlay-account-zone_content">
+                        <div class="qua-overlay-account-zone_content-point">
+                            <p class="qua-overlay-account-zone_content-point__title">Reset Settings</p>
+                            <p class="qua-overlay-account-zone_content-point__message">All your settings will be reseted and you will again experience "fresh start". You will STAY logged in.</p>
+                            <qua-button class="qua-overlay-account-zone_content-point__btn qua-overlay-button-secondary" qua-action="qua:overlay://reset">Clear & Reset all settings</qua-button>
+                        </div>
+                        <div class="qua-overlay-account-zone_content-point">
+                            <p class="qua-overlay-account-zone_content-point__title">Sign Out</p>
+                            <p class="qua-overlay-account-zone_content-point__message">You will be logged out of this account, but all your settings will be saved and remain the same.</p>
+                            <qua-button class="qua-overlay-account-zone_content-point__btn qua-overlay-button-secondary" qua-action="qua:overlay://logout">Logout</qua-button>
+                        </div>
+                        <div class="qua-overlay-account-zone_content-point">
+                            <p class="qua-overlay-account-zone_content-point__title">Delete Account</p>
+                            <p class="qua-overlay-account-zone_content-point__message">If you want to delete your account, you firstly need to go to account website for better security.</p>
+                            <p class="qua-overlay-account-zone_content-point__message second-message-yep">Your account will be deleted with all settings and you will NOT be ABLE to use this account for another services made by Quartyn.</p>
+                            <a href="https://quartyn.com/account/#account-deletion" target="_blank" class="qua-overlay-account-zone_content-point__btn qua-overlay-button-secondary qua-overlay-deleter">Go to website to delete account</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="qua-overlay__body--page" qua-overlay-page="services" aria-current="page">
+                <div class="qua-content-header">
+                    <p class="qua-section-name" qua-overlay-translate="services.page_title">Services</p>
+                </div>
+                <div class="data-content" qactive>
+                    <div class="qua-services-list"></div>
+                </div>
+            </div>
+            <div class="qua-overlay__body--page" qua-overlay-page="themes" aria-current="false">
+                <div class="qua-content-header">
+                    <div class="qua-themes-search">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M15.5 14h-.79l-.28-.27c1.2-1.4 1.82-3.31 1.48-5.34-.47-2.78-2.79-5-5.59-5.34-4.23-.52-7.79 3.04-7.27 7.27.34 2.8 2.56 5.12 5.34 5.59 2.03.34 3.94-.28 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                        <input qua-overlay-action="themes.search" type="text" qua-overlay-translate placeholder="{{themes.search_bar}}" autocomplete="off">
+                    </div>
+                    <div class="qua-theme-request-page">
+                        <qua-button role="button" tabindex="0" aria-label="Request Theme" aria-pressed="false" class="qua-theme-request" qua-overlay-action="theme-manager.open">
+                            <svg qua-source:google-material-icons xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M18 13h-5v5c0 .55-.45 1-1 1s-1-.45-1-1v-5H6c-.55 0-1-.45-1-1s.45-1 1-1h5V6c0-.55.45-1 1-1s1 .45 1 1v5h5c.55 0 1 .45 1 1s-.45 1-1 1z"/></svg>
+                            <qua-label qua-overlay-translate="themes.request_button">Request Theme</qua-label>
+                        </qua-button>
+                    </div>
+                </div>
+                <!-- <div class="qua-unsupported-screen">
+                    <p class="qua-unsupported-screen__title">Oh no, something went wrong</p>
+                    <p class="qua-unsupported-screen__message">Maybe it seems like our servers are currently unavailable. We are fixing this problem. Thanks for your patience</p>
+                </div> -->
+                <div class="qua-themes-request" qua-overlay-action="theme-manager">
+                    <div class="qua-themes-request-bg" qua-overlay-action="theme-manager.close"></div>
+                    <div class="qua-themes-request-content">
+                        <div class="qua-themes-request-header">
+                            <qua-button role="button" tabindex="0" qua-overlay-translate aria-label="{{themes.manager.close_button}}" class="qua-themes-request-close" qua-overlay-action="theme-manager.close">
+                                <svg qua-source:google-material-icons xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M18.3 5.71c-.39-.39-1.02-.39-1.41 0L12 10.59 7.11 5.7c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41L10.59 12 5.7 16.89c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0L12 13.41l4.89 4.89c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z"/></svg>
+                            </qua-button>
+                            <p class="qua-themes-request-title" qua-overlay-translate="themes.manager.page_title">Themes Manager</p>
+                        </div>
+                        <qua-button role="button" tabindex="0" aria-label="Request new Theme" aria-expanded="false" aria-controls="theme-manager.request-theme" qua-overlay-action="theme-manager.request-button" qua-overlay-translate="themes.manager.request_button" class="qua-themes-request-button">Request new theme</qua-button>
+                        <!-- <div class="qua-requested-theme-card-request" qua-test-id="theme-request">
+                            <div class="qua-requested-theme-card-requester">
+                                <p class="qua-requested-theme-card-request-name">Request New</p>
+                                <input class="qua-requested-theme-card-request-url" placeholder="Website URL (https://mywantedwebsite.com)" maxlength="150" qua-test-id="theme-request-link">
+                                <textarea class="qua-requested-theme-card-request-url" maxlength="200" rows="3" placeholder="Optional message for developer (if any)" qua-test-id="theme-request-message"></textarea>
+                                <button class="qua-requested-theme-card-request-new" qua-test-id="theme-request-button">Request New</button>
+                            </div>
+                        </div> -->
+                        <form class="qua-overlay-theme-request-container" id="theme-manager.request-theme" qua-overlay-action="theme-manager.request-form" aria-expanded="false">
+                            <input type="url" class="qua-overlay-theme-request-input" name="qua://theme/request/url" id="qua://theme/request/url" qua-overlay-translate placeholder="{{themes.manager.request_url}}" autocomplete="off" maxlength="150">
+                            <textarea class="qua-overlay-theme-request-input" name="qua://theme/request/message" id="qua://theme/request/message" qua-overlay-translate placeholder="{{themes.manager.request_message}}" autocomplete="off" rows="3" maxlength="200"></textarea>
+                            <button class="qua-overlay-button-secondary --qua-type[clean]" type="submit" name="submit" qua-overlay-translate="themes.manager.submit_button">Submit request</button>
+                        </form>
+                        <p class="qua-themes-request-desc" qua-overlay-translate="themes.manager.list_title">Requested themes by community</p>
+                        <div class="qua-themes-requested-list" qua-overlay-action="theme-manager.theme-list">
+                            <div class="qua-loading-screen">
+                                <div class="qua-loading-screen-icon">
+                                    <svg class="qua-circular-loading" viewBox="25 25 50 50">
+                                        <circle class="path" cx="50" cy="50" r="19" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                    </svg>
+                                </div>
+                                <p class="qua-loading-screen__title">Loading themes for you..</p>
+                            </div>
+                            <!-- <p class="qua-themes-request-nodata">There are no requested themes right now.</p> -->
+                            <!-- <div class="qua-requested-theme-card">
+                                <div class="qua-requested-theme-card-data">
+                                    <p class="qua-requested-theme-card-link">test.com</p>
+                                    <p class="qua-requested-theme-card-status">Status: In Queue</p>
+                                </div>
+                                <div class="qua-requested-theme-card-vote">
+
+                                </div>
+                            </div> -->
+
+                            <!-- <div class="qua-requested-theme-card">
+                                <div class="qloader"></div>
+                            </div>
+                            <div class="qua-requested-theme-card">
+                                <div class="qloader"></div>
+                            </div>
+                            <div class="qua-requested-theme-card">
+                                <div class="qloader"></div>
+                            </div>
+                            <div class="qua-requested-theme-card">
+                                <div class="qloader"></div>
+                            </div>
+                            <div class="qua-requested-theme-card">
+                                <div class="qloader"></div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="data-content">
+                    <div class="qua-loading-screen">
+                        <div class="qua-loading-screen-icon">
+                            <svg class="qua-circular-loading" viewBox="25 25 50 50">
+                                <circle class="path" cx="50" cy="50" r="19" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                            </svg>
+                        </div>
+                        <p class="qua-loading-screen__title">Loading themes for you..</p>
+                    </div>
+                </div>
+            </div>
+            <div class="qua-overlay__body--page" qua-overlay-page="music" aria-current="false">
+                <div class="qua-content-header">
+                    <p class="qua-section-name" qua-overlay-translate="music.page_title">Music</p>
+                    <a href="https://quartyn.com/spotify" target="_blank" style="margin-left: auto;" class="qua-overlay-button-secondary" qua-overlay-translate="layout.check_more">Check more</a>
+                </div>
+                <div class="qua-music-loading" qua-overlay-action="music.load-screen">
+                    <div class="qua-music-loading-header">
+                        <p class="qua-music-loading-title" qua-overlay-translate="music.vibes_title">Enjoy vibes while browsing overlay!</p>
+                        <p class="qua-music-loading-text" qua-overlay-translate="music.vibes_description">Playlists made by Quartyn.</p>
+                    </div>
+                    <button class="qua-overlay-button" qua-overlay-action="music.load-button" qua-overlay-translate="music.load_playlists_button">Load playlists</button>
+                    <p class="qua-music-disclaimer" qua-overlay-translate="music.playlists_info">Playlists were hidden behind "Load playlists" button, to increase page performance while using QuartTools.</p>
+                </div>
+                <div class="qua-overlay-music" qua-overlay-action="music.list"></div>
+            </div>
+            <div class="qua-overlay__body--page" qua-overlay-page="feedback" aria-current="false">
+                <div class="qua-content-header">
+                    <p class="qua-section-name" qua-overlay-translate="feedback.page_title">Leave feedback</p>
+                </div>
+                <div class="data-content" qactive>
+                    <form class="qua-form" qua-overlay-action="feedback.form-container">
+                        <div class="qua-feedback-category">
+                            <p class="qua-feedback-category-name" qua-overlay-translate="feedback.category.rate_title">How do you rate service QuartTools?</p>
+                            <div class="qua-step-card-selector">
+                                <input aria-label="5 stars" type="radio" name="qua-overlay@feedback_rating" value="5" id="qua-fb-5">
+                                <label aria-label="5 stars" tabindex="0" class="qua-step-opinion" for="qua-fb-5">
+                                    <svg class="qua-step-icon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g><path d="M0 0h24v24H0V0z" fill="none"/><path d="M0 0h24v24H0V0z" fill="none"/></g><g><path d="m12 17.27 4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72 3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18-1.1 4.72c-.2.86.73 1.54 1.49 1.08l4.15-2.5z"/></g></svg>
+                                </label>
+                                <input aria-label="4 stars" type="radio" name="qua-overlay@feedback_rating" value="4" id="qua-fb-4">
+                                <label aria-label="4 stars" tabindex="0" class="qua-step-opinion" for="qua-fb-4">
+                                    <svg class="qua-step-icon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g><path d="M0 0h24v24H0V0z" fill="none"/><path d="M0 0h24v24H0V0z" fill="none"/></g><g><path d="m12 17.27 4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72 3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18-1.1 4.72c-.2.86.73 1.54 1.49 1.08l4.15-2.5z"/></g></svg>
+                                </label>
+                                <input aria-label="3 stars" type="radio" name="qua-overlay@feedback_rating" value="3" id="qua-fb-3">
+                                <label aria-label="3 stars" tabindex="0" class="qua-step-opinion" for="qua-fb-3">
+                                    <svg class="qua-step-icon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g><path d="M0 0h24v24H0V0z" fill="none"/><path d="M0 0h24v24H0V0z" fill="none"/></g><g><path d="m12 17.27 4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72 3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18-1.1 4.72c-.2.86.73 1.54 1.49 1.08l4.15-2.5z"/></g></svg>
+                                </label>
+                                <input aria-label="2 stars" type="radio" name="qua-overlay@feedback_rating" value="2" id="qua-fb-2">
+                                <label aria-label="2 stars" tabindex="0" class="qua-step-opinion" for="qua-fb-2">
+                                    <svg class="qua-step-icon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g><path d="M0 0h24v24H0V0z" fill="none"/><path d="M0 0h24v24H0V0z" fill="none"/></g><g><path d="m12 17.27 4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72 3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18-1.1 4.72c-.2.86.73 1.54 1.49 1.08l4.15-2.5z"/></g></svg>
+                                </label>
+                                <input aria-label="1 star" type="radio" name="qua-overlay@feedback_rating" value="1" id="qua-fb-1">
+                                <label aria-label="1 star" tabindex="0" class="qua-step-opinion" for="qua-fb-1">
+                                    <svg class="qua-step-icon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g><path d="M0 0h24v24H0V0z" fill="none"/><path d="M0 0h24v24H0V0z" fill="none"/></g><g><path d="m12 17.27 4.15 2.51c.76.46 1.69-.22 1.49-1.08l-1.1-4.72 3.67-3.18c.67-.58.31-1.68-.57-1.75l-4.83-.41-1.89-4.46c-.34-.81-1.5-.81-1.84 0L9.19 8.63l-4.83.41c-.88.07-1.24 1.17-.57 1.75l3.67 3.18-1.1 4.72c-.2.86.73 1.54 1.49 1.08l4.15-2.5z"/></g></svg>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="qua-feedback-category">
+                            <p class="qua-feedback-category-name" qua-overlay-translate="feedback.category.category_title">What is the category of this feedback?</p>
+                            <div class="qua-feedback-answer-select">
+                                <input aria-label="Theme" type="radio" name="qua-overlay@feedback_category" id="qua-fb-theme" value="theme">
+                                <label tabindex="0" aria-label="Theme" class="qua-feedback-selection" for="qua-fb-theme">
+                                    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><g><rect fill="none" height="24" width="24"/></g><g><path d="M12,2C6.49,2,2,6.49,2,12s4.49,10,10,10c1.38,0,2.5-1.12,2.5-2.5c0-0.61-0.23-1.2-0.64-1.67c-0.08-0.1-0.13-0.21-0.13-0.33 c0-0.28,0.22-0.5,0.5-0.5H16c3.31,0,6-2.69,6-6C22,6.04,17.51,2,12,2z M17.5,13c-0.83,0-1.5-0.67-1.5-1.5c0-0.83,0.67-1.5,1.5-1.5 s1.5,0.67,1.5,1.5C19,12.33,18.33,13,17.5,13z M14.5,9C13.67,9,13,8.33,13,7.5C13,6.67,13.67,6,14.5,6S16,6.67,16,7.5 C16,8.33,15.33,9,14.5,9z M5,11.5C5,10.67,5.67,10,6.5,10S8,10.67,8,11.5C8,12.33,7.33,13,6.5,13S5,12.33,5,11.5z M11,7.5 C11,8.33,10.33,9,9.5,9S8,8.33,8,7.5C8,6.67,8.67,6,9.5,6S11,6.67,11,7.5z"/></g></svg>
+                                    <p>Theme</p>
+                                </label>
+                                <input aria-label="Function" type="radio" name="qua-overlay@feedback_category" id="qua-fb-function" value="function">
+                                <label tabindex="0" aria-label="Function" class="qua-feedback-selection" for="qua-fb-function">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8.7 15.9L4.8 12l3.9-3.9c.39-.39.39-1.01 0-1.4-.39-.39-1.01-.39-1.4 0l-4.59 4.59c-.39.39-.39 1.02 0 1.41l4.59 4.6c.39.39 1.01.39 1.4 0 .39-.39.39-1.01 0-1.4zm6.6 0l3.9-3.9-3.9-3.9c-.39-.39-.39-1.01 0-1.4.39-.39 1.01-.39 1.4 0l4.59 4.59c.39.39.39 1.02 0 1.41l-4.59 4.6c-.39.39-1.01.39-1.4 0-.39-.39-.39-1.01 0-1.4z"/></svg>
+                                    <p>Function</p>
+                                </label>
+                                <input aria-label="Other" type="radio" name="qua-overlay@feedback_category" id="qua-fb-other" value="other">
+                                <label tabindex="0" aria-label="Other" class="qua-feedback-selection" for="qua-fb-other">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                                    <p>Other</p>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="qua-feedback-category">
+                            <p class="qua-feedback-category-name" qua-overlay-translate="feedback.category.type_title">What is the type of this feedback?</p>
+                            <div class="qua-feedback-answer-select">
+                                <input aria-label="Tips or ideas" type="radio" name="qua-overlay@feedback_type" id="qua-fb-request" value="request">
+                                <label tabindex="0" aria-label="Tips or ideas" class="qua-feedback-selection" for="qua-fb-request">
+                                    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><rect fill="none" height="24" width="24" y="0"/><path d="M7,20h4c0,1.1-0.9,2-2,2S7,21.1,7,20z M5,18c0,0.55,0.45,1,1,1h6c0.55,0,1-0.45,1-1s-0.45-1-1-1H6C5.45,17,5,17.45,5,18z M16.5,9.5c0,3.82-2.66,5.86-3.77,6.5H5.27C4.16,15.36,1.5,13.32,1.5,9.5C1.5,5.36,4.86,2,9,2S16.5,5.36,16.5,9.5z M21.37,7.37L20,8 l1.37,0.63L22,10l0.63-1.37L24,8l-1.37-0.63L22,6L21.37,7.37z M19,6l0.94-2.06L22,3l-2.06-0.94L19,0l-0.94,2.06L16,3l2.06,0.94L19,6 z"/></svg>
+                                    <p>Tips or ideas</p>
+                                </label>
+                                <input aria-label="Bug or error" type="radio" name="qua-overlay@feedback_type" id="qua-fb-bug" value="bug">
+                                <label tabindex="0" aria-label="Bug or error" class="qua-feedback-selection" for="qua-fb-bug">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M4.47 21h15.06c1.54 0 2.5-1.67 1.73-3L13.73 4.99c-.77-1.33-2.69-1.33-3.46 0L2.74 18c-.77 1.33.19 3 1.73 3zM12 14c-.55 0-1-.45-1-1v-2c0-.55.45-1 1-1s1 .45 1 1v2c0 .55-.45 1-1 1zm1 4h-2v-2h2v2z"/></svg>
+                                    <p>Bug or error</p>
+                                </label>
+                                <input aria-label="Other" type="radio" name="qua-overlay@feedback_type" id="qua-fb-type-other" value="other">
+                                <label tabindex="0" aria-label="Other" class="qua-feedback-selection" for="qua-fb-type-other">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                                    <p>Other</p>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="qua-feedback-category">
+                            <p class="qua-feedback-category-name" qua-overlay-translate="feedback.input.add_title">Write what could be added or improved</p>
+                            <textarea required name="qua-overlay@feedback_message" name="qua-fb-message" rows="2" id="qua-fb-message" type="text" maxlength="400" placeholder="Write something I can improve.."></textarea>
+                        </div>
+                        <div class="qua-feedback-category qua-feedback-controls">
+                           <button type="button" class="qua-overlay-button-secondary" qua-overlay-translate="feedback.clear_button" qua-overlay-action="feedback.clear_button">Clear form</button>
+                           <button type="submit" name="submit" class="qua-feedback-send qua-overlay-button" qua-overlay-translate="feedback.submit_button">Submit feedback</button>
+                        </div> 
+                    </form>
+                </div>
+            </div>
+            <div class="qua-overlay__body--page" qua-overlay-page="settings" aria-current="false">
+                <div class="qua-content-header">
+                    <p class="qua-section-name" qua-overlay-translate="settings.page_title">Settings</p>
+                    <qua-button tabindex="0" role="button" qua-action="overlay://settings/clear" style="margin-left: auto;" class="qua-overlay-button-secondary qua-fixed-colors" aria-label="Reset all settings" qua-overlay-translate="settings.reset-options">Reset all settings</qua-button>
+                </div>
+                <div class="data-content" qactive>
+                    <div class="qua-overlay-settings-category">
+                        <p class="qua-overlay-settings-category__title" qua-overlay-translate="settings.language.title">Language</p>
+                        <div class="qua-overlay-settings-category__list">
+                            <div class="qua-overlay-settings-option" qua-overlay-option="language">
+                                <div class="qua-overlay__settings-option__select">
+                                    <select name="qua-overlay__language" id="qua-overlay__language">
+                                        <option value="en">English</option>
+                                        <option value="sk">Slovak <span qua-overlay-translate="language.slovak.name">(Slovenčina)</span></option>
+                                    </select>
+                                    <qua-separator></qua-separator>
+                                    <p class="qua-overlay__settings-option__description">I currently don't have support for every language, but i'd love your help in translating! Join our translation community at <a href="https://translate.quartyn.com" target="_blank">https://translate.quartyn.com</a> and contribute to making this extension accessible to more users around the world!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qua-overlay-settings-category">
+                        <p class="qua-overlay-settings-category__title" qua-overlay-translate="settings.theme.title">Theme</p>
+                        <div class="qua-overlay-settings-category__cards" qua-overlay-option="layout.theme">
+                            <label class="qua-overlay__settings-option--card">
+                                <input type="radio" name="qua-overlay_theme" value="dark" checked>                                
+                                <p class="qua-overlay__settings-option--card_title" qua-overlay-translate="theme.dark">Dark</p>
+                            </label>
+                            <label class="qua-overlay__settings-option--card">
+                                <input type="radio" name="qua-overlay_theme" value="amoled">                           
+                                <p class="qua-overlay__settings-option--card_title" qua-overlay-translate="theme.amoled">Amoled</p>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="qua-overlay-settings-category">
+                        <p class="qua-overlay-settings-category__title" qua-overlay-translate="settings.colors.title">Colors</p>
+                        <div class="qua-overlay-settings-category__cards" qua-overlay-option="layout.colors">
+                            <label class="qua-overlay__settings-option--card" style="--qua-overlay-theme-rgb: 131 110 254">
+                                <input type="radio" name="qua-overlay_theme-color" value="blurple" checked>                          
+                                <p class="qua-overlay__settings-option--card_title" qua-overlay-translate="colors.blurple">Blurple</p>
+                            </label>
+                            <label class="qua-overlay__settings-option--card" style="--qua-overlay-theme-rgb: 159 107 255">
+                                <input type="radio" name="qua-overlay_theme-color" value="purple">                           
+                                <p class="qua-overlay__settings-option--card_title" qua-overlay-translate="colors.purple">Purple</p>
+                            </label>
+                            <label class="qua-overlay__settings-option--card" style="--qua-overlay-theme-rgb: 245 107 255">
+                                <input type="radio" name="qua-overlay_theme-color" value="pink">                                
+                                <p class="qua-overlay__settings-option--card_title" qua-overlay-translate="colors.pink">Pink</p>
+                            </label>
+                            <label class="qua-overlay__settings-option--card" style="--qua-overlay-theme-rgb: 107 117 255">
+                                <input type="radio" name="qua-overlay_theme-color" value="blue">                           
+                                <p class="qua-overlay__settings-option--card_title" qua-overlay-translate="colors.blue">Blue</p>
+                            </label>
+                            <label class="qua-overlay__settings-option--card" style="--qua-overlay-theme-rgb: 107 255 253">
+                                <input type="radio" name="qua-overlay_theme-color" value="aqua">                           
+                                <p class="qua-overlay__settings-option--card_title" qua-overlay-translate="colors.aqua">Aqua</p>
+                            </label>
+                            <label class="qua-overlay__settings-option--card" style="--qua-overlay-theme-rgb: 107 225 156">
+                                <input type="radio" name="qua-overlay_theme-color" value="lime">                                
+                                <p class="qua-overlay__settings-option--card_title" qua-overlay-translate="colors.lime">Lime</p>
+                            </label>
+                            <label class="qua-overlay__settings-option--card" style="--qua-overlay-theme-rgb: 132 225 107">
+                                <input type="radio" name="qua-overlay_theme-color" value="green">                                
+                                <p class="qua-overlay__settings-option--card_title" qua-overlay-translate="colors.green">Green</p>
+                            </label>
+                            <label class="qua-overlay__settings-option--card" style="--qua-overlay-theme-rgb: 253 255 107">
+                                <input type="radio" name="qua-overlay_theme-color" value="yellow">                           
+                                <p class="qua-overlay__settings-option--card_title" qua-overlay-translate="colors.yellow">Yellow</p>
+                            </label>
+                            <label class="qua-overlay__settings-option--card" style="--qua-overlay-theme-rgb: 255 151 107">
+                                <input type="radio" name="qua-overlay_theme-color" value="orange">                           
+                                <p class="qua-overlay__settings-option--card_title" qua-overlay-translate="colors.orange">Orange</p>
+                            </label>
+                            <label class="qua-overlay__settings-option--card" style="--qua-overlay-theme-rgb: 255 107 107">
+                                <input type="radio" name="qua-overlay_theme-color" value="red">                           
+                                <p class="qua-overlay__settings-option--card_title" qua-overlay-translate="colors.red">Red</p>
+                            </label>
+                            <div class="qua-overlay_settings-option_special-card">
+                                <label class="qua-overlay__settings-option--card" style="--qua-overlay-theme-rgb: 133 133 133">
+                                    <input type="radio" name="qua-overlay_theme-color" value="custom">                           
+                                    <p class="qua-overlay__settings-option--card_title" qua-overlay-translate="colors.custom">Custom</p>
+                                </label>
+                                <input type="text" name="qua-overlay_theme-color--custom" id="qua-overlay_theme-color--custom" placeholder="rgb(255, 255, 255)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qua-overlay-settings-category" style="display: none;">
+                        <p class="qua-overlay-settings-category__title">Theme Colors</p>
+                        <div class="qua-overlay-settings-category__grid">
+                            <div class="qua-overlay-settings-option">
+                                <div class="qua-overlay-settings-option__details">
+                                    <label for="qua://settings/theme" class="qua-overlay-settings-option__title">Primary</label>
+                                </div>
+                                <div class="qua-overlay-settings-option__controls">
+                                    <label for="qua://settings/theme" class="qua-overlay-settings-option__label">#836efe</label>
+                                    <input type="color" id="qua://settings/theme" value="#836efe">
+                                </div>
+                            </div>
+                            <div class="qua-overlay-settings-option">
+                                <div class="qua-overlay-settings-option__details">
+                                    <label for="qua://settings/text-on-theme" class="qua-overlay-settings-option__title">Text on Theme color</label>
+                                </div>
+                                <div class="qua-overlay-settings-option__controls">
+                                    <label for="qua://settings/text-on-theme" class="qua-overlay-settings-option__label">#ffffff</label>
+                                    <input type="color" id="qua://settings/text-on-theme" value="#ffffff">
+                                </div>
+                            </div>
+                            <div class="qua-overlay-settings-option">
+                                <div class="qua-overlay-settings-option__details">
+                                    <label for="qua://settings/background" class="qua-overlay-settings-option__title">Primary Background</label>
+                                </div>
+                                <div class="qua-overlay-settings-option__controls">
+                                    <label for="qua://settings/background" class="qua-overlay-settings-option__label">#0e1014</label>
+                                    <input type="color" id="qua://settings/background" value="#0e1014">
+                                </div>
+                            </div>
+                            <div class="qua-overlay-settings-option">
+                                <div class="qua-overlay-settings-option__details">
+                                    <label for="qua://settings/text-color" class="qua-overlay-settings-option__title">Primary Text</label>
+                                </div>
+                                <div class="qua-overlay-settings-option__controls">
+                                    <label for="qua://settings/text-color" class="qua-overlay-settings-option__label">#ffffff</label>
+                                    <input type="color" id="qua://settings/text-color" value="#ffffff">
+                                </div>
+                            </div>
+                            <div class="qua-overlay-settings-option">
+                                <div class="qua-overlay-settings-option__details">
+                                    <label for="qua://settings/text-color-secondary" class="qua-overlay-settings-option__title">Secondary Text</label>
+                                </div>
+                                <div class="qua-overlay-settings-option__controls">
+                                    <label for="qua://settings/text-color-secondary" class="qua-overlay-settings-option__label">#6c7484</label>
+                                    <input type="color" id="qua://settings/text-color-secondary" value="#6c7484">
+                                </div>
+                            </div>
+                            <div class="qua-overlay-settings-option">
+                                <div class="qua-overlay-settings-option__details">
+                                    <label for="qua://settings/border-color" class="qua-overlay-settings-option__title">Border Color</label>
+                                </div>
+                                <div class="qua-overlay-settings-option__controls">
+                                    <label for="qua://settings/border-color" class="qua-overlay-settings-option__label">#23212c</label>
+                                    <input type="color" id="qua://settings/border-color" value="#23212c">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qua-overlay-settings-category">
+                        <p class="qua-overlay-settings-category__title" qua-overlay-translate="settings.navigation.title">Navigation</p>
+                        <div class="qua-overlay-settings-category__big-cards" qua-overlay-option="layout.navigation_type">
+                            <label class="qua-overlay__settings-option--big-card">
+                                <div class="qua-overlay__settings-option--big-card_image">
+                                    <svg quartyn:svg width="830" height="502" viewBox="0 0 830 502" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="829" height="502" rx="20" fill="#0E1014"/>
+                                        <line x1="194.5" x2="194.5" y2="502" stroke="#23212C"/>
+                                        <rect x="209" y="15" width="95" height="15" rx="7.5" fill="#23212C"/>
+                                        <line x1="829.01" y1="44" x2="193.99" y2="44" stroke="#23212C"/>
+                                        <line x1="178" y1="82.5" x2="17" y2="82.5" stroke="#23212C"/>
+                                        <line x1="178" y1="409.5" x2="17" y2="409.5" stroke="#23212C"/>
+                                        <circle cx="39" cy="110" r="13" fill="var(--qua-overlay-theme)"/>
+                                        <rect x="66" y="103" width="55" height="14" rx="7" fill="var(--qua-overlay-theme)"/>
+                                        <circle cx="39" cy="436" r="13" fill="var(--qua-overlay-theme)"/>
+                                        <rect x="66" y="429" width="68" height="14" rx="7" fill="var(--qua-overlay-theme)"/>
+                                        <circle cx="39" cy="475" r="13" fill="var(--qua-overlay-theme)"/>
+                                        <rect x="66" y="468" width="48" height="14" rx="7" fill="var(--qua-overlay-theme)"/>
+                                        <circle cx="39" cy="151" r="13" fill="var(--qua-overlay-theme)"/>
+                                        <rect x="66" y="144" width="61" height="14" rx="7" fill="var(--qua-overlay-theme)"/>
+                                        <circle cx="39" cy="190" r="13" fill="var(--qua-overlay-theme)"/>
+                                        <rect x="66" y="183" width="61" height="14" rx="7" fill="var(--qua-overlay-theme)"/>
+                                        <circle cx="39" cy="230" r="13" fill="var(--qua-overlay-theme)"/>
+                                        <rect x="66" y="223" width="75" height="14" rx="7" fill="var(--qua-overlay-theme)"/>
+                                    </svg>                                        
+                                </div>
+                                <input type="radio" name="layout.navigation_type" value="sidebar" checked>
+                                <p qua-overlay-translate="navigation.sidebar">Sidebar</p>
+                            </label>
+                            <label class="qua-overlay__settings-option--big-card">
+                                <div class="qua-overlay__settings-option--big-card_image">
+                                    <svg quartyn:svg width="830" height="502" viewBox="0 0 830 502" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="829" height="502" rx="20" fill="#0E1014"/>
+                                        <rect x="20" y="15" width="92" height="15" rx="7.5" fill="#23212C"/>
+                                        <line x1="829.01" y1="44" y2="44" stroke="#23212C"/>
+                                        <line x1="829" y1="449.5" y2="449.5" stroke="#23212C"/>
+                                        <circle cx="150" cy="475" r="13" fill="var(--qua-overlay-theme)"/>
+                                        <rect x="177" y="468" width="55" height="14" rx="7" fill="var(--qua-overlay-theme)"/>
+                                        <circle cx="628" cy="475" r="13" fill="var(--qua-overlay-theme)"/>
+                                        <rect x="655" y="468" width="68" height="14" rx="7" fill="var(--qua-overlay-theme)"/>
+                                        <circle cx="519" cy="475" r="13" fill="var(--qua-overlay-theme)"/>
+                                        <rect x="546" y="468" width="48" height="14" rx="7" fill="var(--qua-overlay-theme)"/>
+                                        <circle cx="266" cy="475" r="13" fill="var(--qua-overlay-theme)"/>
+                                        <rect x="293" y="468" width="61" height="14" rx="7" fill="var(--qua-overlay-theme)"/>
+                                        <circle cx="388" cy="475" r="13" fill="var(--qua-overlay-theme)"/>
+                                        <rect x="415" y="468" width="75" height="14" rx="7" fill="var(--qua-overlay-theme)"/>
+                                    </svg>                                                                              
+                                </div>
+                                <input type="radio" name="layout.navigation_type" value="modern">
+                                <p qua-overlay-translate="navigation.modern">Modern</p>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="qua-overlay-settings-category">
+                        <p class="qua-overlay-settings-category__title" qua-overlay-translate="settings.themes-title">Themes</p>
+                        <div class="qua-overlay-settings-category__list">
+                            <div class="qua-overlay__settings-option" qua-overlay-option="theme.disable_notifications">
+                                <div class="qua-overlay-settings-option-switch">
+                                    <div class="qua-overlay-settings-option-switch__details">
+                                        <label for="qua://settings/themes/notification" class="qua-overlay-settings-option-switch__title" qua-overlay-translate="options.themes.disable_notifications">Disable notifications</label>
+                                        <p class="qua-overlay-settings-option-switch__description" qua-overlay-translate="options.themes.disable_notifications_message">Don't show notifications when theme is available for website.</p>
+                                    </div>
+                                    <label class="qua-overlay-switch" tabindex="0" role="button" aria-label="Turn on/off ${option.name} option.">
+                                        <input class="qua-overlay-switch_input" type="checkbox" id="qua://settings/themes/notifications">
+                                        <span class="qua-overlay-switch_slider">
+                                            <span class="qua-overlay-switch_dot"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="qua-overlay__settings-option" qua-overlay-option="theme.show_details">
+                                <div class="qua-overlay-settings-option-switch">
+                                    <div class="qua-overlay-settings-option-switch__details">
+                                        <label for="qua://settings/themes/notification" class="qua-overlay-settings-option-switch__title" qua-overlay-translate="options.themes.show_details">Show details</label>
+                                        <p class="qua-overlay-settings-option-switch__description" qua-overlay-translate="options.themes.show_details_message">Shows additional details for every theme.</p>
+                                    </div>
+                                    <label class="qua-overlay-switch" tabindex="0" role="button" aria-label="Turn on/off ${option.name} option.">
+                                        <input class="qua-overlay-switch_input" type="checkbox" id="qua://settings/themes/advanced-mode">
+                                        <span class="qua-overlay-switch_slider">
+                                            <span class="qua-overlay-switch_dot"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="qua-overlay__settings-option" qua-overlay-option="theme.hide_tags">
+                                <div class="qua-overlay-settings-option-switch">
+                                    <div class="qua-overlay-settings-option-switch__details">
+                                        <label for="qua://settings/themes/notification" class="qua-overlay-settings-option-switch__title" qua-overlay-translate="options.themes.hide_tags">Hide Tags</label>
+                                        <p class="qua-overlay-settings-option-switch__description" qua-overlay-translate="options.themes.hide_tags.message">All Tags like `New, Beta, Update` will be hidden.</p>
+                                    </div>
+                                    <label class="qua-overlay-switch" tabindex="0" role="button" aria-label="Turn on/off ${option.name} option.">
+                                        <input class="qua-overlay-switch_input" type="checkbox" id="qua://settings/themes/tags">
+                                        <span class="qua-overlay-switch_slider">
+                                            <span class="qua-overlay-switch_dot"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <qua-label class="qua-overlay-settings-option__title" qua-overlay-translate="settings.coming-soon">More settings are coming soon.</qua-label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

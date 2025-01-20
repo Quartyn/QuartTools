@@ -1,0 +1,10 @@
+{
+    "name": {
+        "message": "QuartTools",
+        "description": "Name of the application"
+    },
+    "description": {
+        "message": "Tools by Quartyn • Adding you functions and custom themes on some websites.",
+        "description": "Description of the application"
+    }
+}

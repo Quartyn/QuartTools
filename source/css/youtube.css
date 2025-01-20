@@ -1,0 +1,215 @@
+/* #region Video Controls */
+
+  /* #region Main */
+  /* .qua-video-controls {
+    user-select: none;
+    opacity: 1;
+    transition: .5s;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  } */
+  .qua-overlay-app_video-controls {
+    user-select: none;
+    opacity: 1;
+    transition: .5s;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  /* #endregion */
+
+  /* #region Custom Background */
+  .html5-video-player:not([qua-background="true"]) .q-background {
+    display: none !important;
+  }
+  /* .q-background, */
+  .qua-overlay-app_video-controls_background {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background-size: cover;
+    background-position: center;
+    user-select: none;
+    pointer-events: none;
+  }
+  #movie_player.ad-showing .qua-overlay-app_video-controls_background {
+    opacity: 1;
+    transition: .5s;
+  }
+  /* #endregion */
+
+  /* #region Ad was skipped - notification */
+  .qua-small-notification {
+    opacity: 0;
+    z-index: 100;
+    color: var(--qua-overlay-text-color);
+    font-family: var(--qua-overlay-font-family);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    border-radius: 9999px;
+    width: 100%;
+    pointer-events: none;
+    white-space: nowrap;
+    box-sizing: border-box;
+    overflow: hidden;
+    max-width: 52px;
+    padding: 10px;
+    background: var(--qua-overlay-background);
+    transition: width 0.5s ease-out, max-width .5s ease-out, border-radius .5s ease-out;
+  }
+  .qua-small-notification p {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: var(--qua-overlay-font-family) !important;
+    color: var(--qua-overlay-text-color) !important;
+  }
+  .qua-small-notification.qua-active {
+    animation-duration: 5s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+    animation-name: smallNotification;
+  }
+  @keyframes smallNotification {
+    0% {
+      opacity: 0;
+      margin-bottom: 1.5%;
+      max-width: 52px;
+    }
+    10% {
+      opacity: 1;
+      margin-bottom: 4%;
+      max-width: 52px;
+    }
+    35% {
+      opacity: 1;
+      margin-bottom: 4%;
+      max-width: 180px;
+    }
+    65% {
+      opacity: 1;
+      margin-bottom: 4%;
+      max-width: 180px;
+    }
+    90% {
+      opacity: 1;
+      max-width: 52px;
+      margin-bottom: 4%;
+    }
+    100% {
+      margin-bottom: 1.5%;
+      opacity: 0;
+      max-width: 52px;
+    }
+  }
+  /* #endregion */
+
+  /* #region Volume Controls */
+  #movie_player.html5-video-player:not(.ad-showing) .qmanager {
+    display: none !important;
+  }
+  .qmanager {
+    transition: 1s;
+  }
+  .qmanager::before {
+    content: '';
+    width: 49.99px;
+    height: 100%;
+    background: transparent;
+    position: absolute;
+    z-index: 2;
+  }
+  .qmanager button svg .ytp-svg-fill {
+    fill: grey !important;
+  }
+  .qmanager > .ytp-volume-panel {
+    display: none !important;
+  }
+  /* #endregion */
+
+/* #endregion video-controls */
+
+/* #region Video Player Additions */
+
+  /* #region Ad is showing */
+  .html5-video-player.ad-showing .ytp-caption-window-container { /* Captions */
+    display: none !important;
+  }
+  .ytp-larger-tap-buttons.html5-video-player .ytp-ad-overlay-slot {
+    transition: .5s;
+  }
+  .ytp-larger-tap-buttons.html5-video-player .ytp-ad-overlay-slot.qclose {
+    bottom: 10px;
+    opacity: 0;
+    transition: .5s;
+  }
+  /* #endregion */
+
+  /* #region Ad Informations */
+  .ytp-flyout-cta .ytp-flyout-cta-body {
+    background-color: transparent !important;
+  }
+  .ytp-flyout-cta .ytp-flyout-cta-action-button {
+    background: transparent !important;
+    border-color: rgb(22, 122, 198) !important;
+    transition: .4s;
+  }
+  .ytp-flyout-cta .ytp-flyout-cta-action-button:hover {
+    background: rgb(22, 122, 198) !important;
+    box-shadow: 0 0 10px rgb(22, 122, 198) !important;
+  }
+  .ytp-flyout-cta-body {
+    margin-top: -5px;
+  }
+  .ytp-flyout-cta {
+    margin-top: 5px !important;
+  }
+  .ytp-flyout-cta .ytp-flyout-cta-headline-container {
+    color: grey !important;
+  }
+  /* #endregion */
+
+  /* #region Ads in 3..2..1.. */
+  .ytp-larger-tap-buttons .ytp-ad-message-container {
+    border-top-left-radius: 11px;
+    border-bottom-left-radius: 11px;
+  }
+  /* #endregion */
+
+  /* #region Skip Ad */
+  /* .ytp-ad-skip-button,
+  .ytp-ad-skip-button:hover {
+    border-color: #3764ff !important;
+    border-top-left-radius: 11px;
+    border-bottom-left-radius: 11px;
+  } */
+
+  /* .ytp-larger-tap-buttons .ytp-ad-preview-container {
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+  } */
+  /* #endregion */
+
+/* #endregion */
+
+/* #region Live chat */
+yt-live-chat-text-message-renderer:has(.mention.yt-live-chat-text-message-renderer) {
+  background-color: rgb(var(--qua-overlay-theme-rgb) / 15%) !important;
+}
+.mention.yt-live-chat-text-message-renderer {
+  background-color: rgb(var(--qua-overlay-theme-rgb) / 100%) !important;
+  color: var(--qua-overlay-text-on-theme) !important;
+}
+/* #endregion mention yt-live-chat-text-message-renderer */
+
+/* Quartyn Verified -- Done */
