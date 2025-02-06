@@ -1,22 +1,23 @@
-//#region RunTime
-chrome.runtime.onMessage.addListener(gotMessage);
-//#endregion
+// #region Listen to browser action click
+BrowserApi.runtime.onMessage.addListener(gotMessage);
+// #endregion
 
 //#region GotMessage
 function gotMessage(message, sender, sendResponse) {
-    if(message.txt == "qua?Open") {
-        var qoverlay = document.querySelector('.qua-overlay');
-        if (qoverlay) {
-            if (qoverlay.getAttribute('qaction') === 'active' && qoverlay.classList.contains('qactive')) {
-                qoverlay.classList.remove('qactive');
-                qoverlay.removeAttribute('qaction');
-                document.documentElement.removeAttribute('qua-overlay');
-            } else {
-                qoverlay.setAttribute('qaction', 'active');
-                qoverlay.classList.add('qactive');
-                document.documentElement.setAttribute('qua-overlay', 'open');
-            }
-        }
+    if (message.txt !== "qua?Open") return false;
+    console.log('got message qua?opn')
+
+    const overlay = document.querySelector('.qua-overlay');
+    if (!overlay) return false;
+    
+    if (overlay.getAttribute('qaction') === 'active' && overlay.classList.contains('qactive')) {
+        overlay.classList.remove('qactive');
+        overlay.removeAttribute('qaction');
+        document.documentElement.removeAttribute('qua-overlay');
+    } else {
+        overlay.setAttribute('qaction', 'active');
+        overlay.classList.add('qactive');
+        document.documentElement.setAttribute('qua-overlay', 'open');
     }
 }
 let keysPressed = {};

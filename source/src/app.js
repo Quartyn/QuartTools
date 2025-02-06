@@ -114,7 +114,7 @@ let overlay_theme_customization = {};
 // #endregion
 
 // FUNCTION - Message Centre
-extensionAPI.runtime.onMessage.addListener(
+BrowserApi.runtime.onMessage.addListener(
     function(message, sender, sendResponse) {
         if (message.id == 'logoutUser') return logoutUser();
         if (message.id == 'clearSettings') return clearSettings();
@@ -132,7 +132,11 @@ extensionAPI.runtime.onMessage.addListener(
 
 initializeApp();
 function initializeApp() {
-    if (!settings) return setTimeout(initializeApp, 10);
+    console.log('app is loading')
+    if (!settings) {
+        console.info('Settings are missing');
+        return setTimeout(initializeApp, 10)
+    };
     importOverlay();
 
     if (!settings?.account?.isLogged) return;
@@ -140,13 +144,15 @@ function initializeApp() {
 }
 
 async function importOverlay(mode = "full") {
+    console.log('importing overlay');
     document.documentElement.setAttribute('quartyn-tools', '');
     quartyn.log(`Adding Overlay on ${window.location.href}`);
 
-    // #region Import overlay to website
-    fetch(extensionAPI.runtime.getURL('/html/overlay.html'))
+    // #region Import overlay ui to the website
+    fetch(BrowserApi.runtime.getURL('/ui/overlay.html'))
     .then(response => response.text())
     .then(data => {
+        console.log('fetched overlay ui');
         loadedApps = [];
         if (mode == "part") {
             let overlay = document.querySelector('.q-overlay');
@@ -157,6 +163,8 @@ async function importOverlay(mode = "full") {
         } else {
             var overlay = document.createElement('div');
             overlay.setAttribute('author', 'Quartyn');
+            // let shadow = overlay.attachShadow({ 'mode': "closed"});
+            // shadow.innerHTML = data;
             overlay.innerHTML = data;
             document.body.appendChild(overlay);
         }
@@ -175,7 +183,7 @@ async function importOverlay(mode = "full") {
 
         // Image manager
         document.querySelectorAll('[qua-image\\:id]').forEach(element => {
-            element.src = extensionAPI.runtime.getURL(`/img/assets/${element.getAttribute('qua-image:id')}`);
+            element.src = BrowserApi.runtime.getURL(`/images/icons/${element.getAttribute('qua-image:id')}`);
         });
     }).catch(err => {
         console.log(err);
@@ -184,80 +192,80 @@ async function importOverlay(mode = "full") {
     // #endregion
 
     // #region Loading & hash events
-    let loadingCounter = 0;
-    function move() {
-        if (loadingCounter == 0) {
-            loadingCounter = 1;
-            var elem = document.querySelector('.qloading-bar .qstatus');
-            var width = 1;
-            var id = setInterval(frame, 20);
-            function frame() {
-                if (width >= 100) {
-                    clearInterval(id);
-                    loadingCounter = 0;
-                    if (!document.querySelector('.q-loading')) return;
-                    document.querySelector('.q-loading').style.opacity = '0';
-                    elem.parentElement.remove();
-                    setTimeout(() => {
-                        document.querySelector('.q-loading').remove();
-                        document.querySelector('.q-overlay').removeAttribute('q');
-                    }, 1000);
-                } else {
-                    width++;
-                    if (elem) {
-                        elem.style.width = width + "%";
-                    }
-                }
-            }
-        }
-    }
-    var qstatus = setInterval(() => {
-        let overlay = document.querySelector('.qua-overlay');
-        if (overlay) {
-            overlay.setAttribute('qstatus', document.readyState);
-            if (document.readyState === 'complete') {
-                clearInterval(qstatus);
-                move();
-            }
-        }
-    }, 10);
-    function qaction() {
-        if (window.location.hash.includes('#qopen')) {
-            let linkHash = window.location.hash;
-            let qopener = '#qopen';
-            let qcategor = linkHash.indexOf(qopener) + qopener.length;
-            let qaction = linkHash.substring(qcategor).toLowerCase();
-            let qcateCat = qaction.split('/');
-            let goTo = qcateCat[1];
-            let goToSection = qcateCat[2];
-            function doaction() {
-                let overlay = document.querySelector('.qua-overlay');
-                if (overlay) {
-                    overlay.setAttribute('qaction', 'active');
-                    overlay.classList.add('qactive');
-                    document.documentElement.setAttribute('qua-overlay', 'open');
-                    openPage(goTo);
-                } else {
-                    setTimeout(() => {
-                        doaction();
-                    }, 1000);
-                }
-            }
+    // let loadingCounter = 0;
+    // function move() {
+    //     if (loadingCounter == 0) {
+    //         loadingCounter = 1;
+    //         var elem = document.querySelector('.qloading-bar .qstatus');
+    //         var width = 1;
+    //         var id = setInterval(frame, 20);
+    //         function frame() {
+    //             if (width >= 100) {
+    //                 clearInterval(id);
+    //                 loadingCounter = 0;
+    //                 if (!document.querySelector('.q-loading')) return;
+    //                 document.querySelector('.q-loading').style.opacity = '0';
+    //                 elem.parentElement.remove();
+    //                 setTimeout(() => {
+    //                     document.querySelector('.q-loading').remove();
+    //                     document.querySelector('.q-overlay').removeAttribute('q');
+    //                 }, 1000);
+    //             } else {
+    //                 width++;
+    //                 if (elem) {
+    //                     elem.style.width = width + "%";
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+    // var qstatus = setInterval(() => {
+    //     let overlay = document.querySelector('.qua-overlay');
+    //     if (overlay) {
+    //         overlay.setAttribute('qstatus', document.readyState);
+    //         if (document.readyState === 'complete') {
+    //             clearInterval(qstatus);
+    //             move();
+    //         }
+    //     }
+    // }, 10);
+    // function qaction() {
+    //     if (window.location.hash.includes('#qopen')) {
+    //         let linkHash = window.location.hash;
+    //         let qopener = '#qopen';
+    //         let qcategor = linkHash.indexOf(qopener) + qopener.length;
+    //         let qaction = linkHash.substring(qcategor).toLowerCase();
+    //         let qcateCat = qaction.split('/');
+    //         let goTo = qcateCat[1];
+    //         let goToSection = qcateCat[2];
+    //         function doaction() {
+    //             let overlay = document.querySelector('.qua-overlay');
+    //             if (overlay) {
+    //                 overlay.setAttribute('qaction', 'active');
+    //                 overlay.classList.add('qactive');
+    //                 document.documentElement.setAttribute('qua-overlay', 'open');
+    //                 openPage(goTo);
+    //             } else {
+    //                 setTimeout(() => {
+    //                     doaction();
+    //                 }, 1000);
+    //             }
+    //         }
             
-            if (settings.account.isLogged) {
-                doaction();
-            }
-        }
-    }
-    var qloadingcheck = setInterval(function () {
-        if (document.readyState !== 'loading') {
-            clearInterval(qloadingcheck);
-            qaction();
-        }
-    }, 10);
-    window.addEventListener('hashchange', () => {
-        qaction();
-    });
+    //         if (settings.account.isLogged) {
+    //             doaction();
+    //         }
+    //     }
+    // }
+    // var qloadingcheck = setInterval(function () {
+    //     if (document.readyState !== 'loading') {
+    //         clearInterval(qloadingcheck);
+    //         qaction();
+    //     }
+    // }, 10);
+    // window.addEventListener('hashchange', () => {
+    //     qaction();
+    // });
     // #endregion
 }
 
@@ -303,7 +311,7 @@ function loginAsGuest() {
     importOverlay('part');
 }
 async function setupLoginScreen() {
-    let response = await fetch(extensionAPI.runtime.getURL('../html/login.html'));
+    let response = await fetch(BrowserApi.runtime.getURL('/ui/login.html'));
     document.querySelector('.q-overlay').innerHTML = await response.text();
     let setupScreen = document.querySelector('.q-overlay .qua-authentication-page');
 
@@ -341,7 +349,7 @@ async function setupLoginScreen() {
         register.submit.disabled = true;
         register.submit.classList.add('qua-overlay__loading');
 
-        extensionAPI.runtime.sendMessage({ id: "createUser", body: new URLSearchParams(new FormData(authRegister)).toString() })
+        BrowserApi.runtime.sendMessage({ id: "createUser", body: new URLSearchParams(new FormData(authRegister)).toString() })
         .then(res => {
             console.log(res);
             register.submit.classList.remove('qua-overlay__loading');
@@ -369,7 +377,7 @@ async function setupLoginScreen() {
 
         });
 
-        // extensionAPI.runtime.sendMessage({id: "createUser", body: new URLSearchParams(new FormData(authRegister)).toString()}, function(response) {
+        // BrowserApi.runtime.sendMessage({id: "createUser", body: new URLSearchParams(new FormData(authRegister)).toString()}, function(response) {
         //     console.log(response);
         //     register.submit.classList.remove('qua-overlay__loading');
         //     if (response.status !== 200) {
@@ -409,7 +417,7 @@ async function setupLoginScreen() {
         if (!config.usernamePattern.test(this.value)) return this.closest('.qua-overlay-modern-input').setAttribute('qua-overlay-input', 'error');
         let data = new URLSearchParams();
         data.append('q', this.value);
-        extensionAPI.runtime.sendMessage({ id: "checkName", body: data.toString() })
+        BrowserApi.runtime.sendMessage({ id: "checkName", body: data.toString() })
         .then(res => {
             console.log(res);
             if (res.status !== 200) {
@@ -464,7 +472,7 @@ async function setupLoginScreen() {
         login.submit.disabled = true;
         login.submit.classList.add('qua-overlay__loading');
 
-        extensionAPI.runtime.sendMessage({ id: "loginUser", body: new URLSearchParams(new FormData(this)).toString() })
+        BrowserApi.runtime.sendMessage({ id: "loginUser", body: new URLSearchParams(new FormData(this)).toString() })
         .then(response => {
             login.submit.classList.remove('qua-overlay__loading');
             if (response.status !== 200) {
@@ -847,7 +855,7 @@ function initServices() {
                             duration: 3000
                         });
                     });
-                    customCard.innerHTML = `<img src="${myExtensionLink}img/images/${customBackgroundOption.imageID}">`;
+                    customCard.innerHTML = `<img src="${extensionURL}images/backgrounds/${customBackgroundOption.imageID}">`;
                     customizerContainer.appendChild(customCard);
                 });
                 optionItem.appendChild(customizerContainer);
@@ -874,7 +882,7 @@ function initServices() {
 function initAccount() {
     let logoutButton = document.querySelector('[qua-action="qua\\:overlay\\://logout"]');
     logoutButton?.addEventListener('click', function() {
-        extensionAPI.runtime.sendMessage({ id: "logoutUser" })
+        BrowserApi.runtime.sendMessage({ id: "logoutUser" })
         .then(response => {
             console.log(response);
         }).catch(err => {
@@ -887,7 +895,7 @@ function initAccount() {
     // resetButton?.addEventListener('click', resetSender);
     resetButton?.addEventListener('click', function() {
         console.log('Sending clear settings request.')
-        extensionAPI.runtime.sendMessage({ id: "clearSettings" })
+        BrowserApi.runtime.sendMessage({ id: "clearSettings" })
         .then(data => {
             console.log(data);
         }).catch(err => {
@@ -942,7 +950,7 @@ function initThemes() {
         message.disabled = true;
         isRequestDisabled = true;
 
-        extensionAPI.runtime.sendMessage({id: "requestTheme", body: new URLSearchParams(new FormData(this)).toString()})
+        BrowserApi.runtime.sendMessage({id: "requestTheme", body: new URLSearchParams(new FormData(this)).toString()})
         .then(res => {
             console.log(res);
             if (res.status !== 200) {
@@ -1320,14 +1328,14 @@ function feedbackInit() {
             message: feedbackMessage.value
         }
 
-        extensionAPI.runtime.sendMessage({ id: "sendFeedback", body: data }, function(response) {
+        BrowserApi.runtime.sendMessage({ id: "sendFeedback", body: data }, function(response) {
 
         })
         .catch(err => {
             
         })
         try {
-            extensionAPI.runtime.sendMessage(feedbackData, function(response) {
+            BrowserApi.runtime.sendMessage(feedbackData, function(response) {
                 if (response.status !== 202) {
                     parentIs.innerHTML = `<div class="qua-loading-screen"><div class="qua-loading-screen-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="var(--qua-overlay-theme)"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M24 15c0-2.64-2.05-4.78-4.65-4.96C18.67 6.59 15.64 4 12 4c-1.33 0-2.57.36-3.65.97l1.49 1.49C10.51 6.17 11.23 6 12 6c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3 0 .99-.48 1.85-1.21 2.4l1.41 1.41c1.09-.92 1.8-2.27 1.8-3.81zM3.71 4.56c-.39.39-.39 1.02 0 1.41l2.06 2.06h-.42c-3.28.35-5.76 3.34-5.29 6.79C.46 17.84 3.19 20 6.22 20h11.51l1.29 1.29c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L5.12 4.56c-.39-.39-1.02-.39-1.41 0zM6 18c-2.21 0-4-1.79-4-4s1.79-4 4-4h1.73l8 8H6z"/></svg></div><p class="qua-loading-screen__title">Feedback is currently unavailable. :(</p></div>`;
                     new OverlayNotification({
@@ -1401,7 +1409,7 @@ function welcomeScreen(data) {
     let letterAvatar = createAvatarLetter(data.fullname);
     overlay.querySelector('.qua-overlay__welcome-screen--image').src = letterAvatar;
     
-    extensionAPI.runtime.sendMessage({id: "getImage", link: data.avatar}, function(response) {
+    BrowserApi.runtime.sendMessage({id: "getImage", link: data.avatar}, function(response) {
         if (response.status !== 200) {
             return new OverlayNotification({
                 title: response.message
@@ -1584,7 +1592,7 @@ async function saveCustomization({index} = {}) {
         return;
     }
     
-    let response = await extensionAPI.storage.sync.get();
+    let response = await BrowserApi.storage.sync.get();
     let customization = response['theme_customization'];
     console.log(customization);
     !customization ? customization = {} : customization;
@@ -1604,7 +1612,7 @@ async function saveCustomization({index} = {}) {
             console.log(`I am storing key ${key} as ${value} inside of database with id ${themeID}`)
         }
     }
-    extensionAPI.storage.sync.set({'theme_customization': customization })
+    BrowserApi.storage.sync.set({'theme_customization': customization })
     .then(() => {
         quartyn.success(`Customization was saved!`);
         console.table(customization);
@@ -1617,7 +1625,7 @@ async function saveCustomization({index} = {}) {
 async function getCustomization({id} = {}) {
     if (!id) {quartyn.error(`ID is missing for getCustomization.`); return;};
 
-    let response = await extensionAPI.storage.sync.get('theme_customization');
+    let response = await BrowserApi.storage.sync.get('theme_customization');
     let data = response.theme_customization;
 
     return data[id];
@@ -1654,7 +1662,7 @@ function addDraggable(element, limit = {x: 0}) {
 //         type: t
 //     }
 //     try {
-//         extensionAPI.runtime.sendMessage(qmsg);
+//         BrowserApi.runtime.sendMessage(qmsg);
 //     } catch (err) {
 //         quartyn.error('It Seems, that Extension was Updated in the Background... Refresh Tab to apply New Version.');
 //     }

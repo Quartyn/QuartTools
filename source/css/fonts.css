@@ -1,7 +1,0 @@
-@font-face {
-    font-family: 'Outfit';
-    display: swap;
-    src: 
-      url(../fonts/Outfit/Outfit-VariableFont_wght.ttf),
-      url(chrome-extension://__MSG_@@extension_id__/fonts/Outfit/Outfit-VariableFont_wght.ttf)
-}

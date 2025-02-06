@@ -149,7 +149,7 @@
         "authentication.login.recommended_text": "Odporúčam sa prihlasovať na webe {{website}}, takže keď sa prihlásiš, budeš môcť uložiť svoje prihlasovacie údaje.",
         "authentication.login_button": "Prihlásiť sa",
         "authentication.register_button": "Zaregistrovať sa",
-        "authentication.lost_password_button": "Stratil som svoje heslo",
+        "authentication.lost_password_button": "Zabudol/a som svoje heslo",
         "authentication.login_with_account": "Prihlásiť sa s existujúcim účtom"
     }
 }

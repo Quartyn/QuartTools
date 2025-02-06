@@ -1,10 +1,11 @@
 (function(window) {
 
-    let developerURL = `http://127.0.0.1:5500/design/themes/`;
     let catalogue = {
-        default: "http://localhost:5559/catalogue.json",
+        // default: "https://raw.githubusercontent.com/Quartyn/QuartTools/refs/heads/master/themes/catalogue.json"
+        default: "http://localhost:5500/catalogue.json",
         others: []
     }
+    const themeServer = catalogue.default.split('/catalogue.json').shift() + '/';
 
     function checkHeaders() {
         return new Promise((resolve, reject) => {
@@ -34,7 +35,17 @@
         let isOnline = navigator.onLine;
         if (!isOnline) text += ` You are offline.`;
 
-        elem.innerHTML = `<div class="qua-loading-screen"><div class="qua-loading-screen-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="var(--qua-overlay-theme)"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M24 15c0-2.64-2.05-4.78-4.65-4.96C18.67 6.59 15.64 4 12 4c-1.33 0-2.57.36-3.65.97l1.49 1.49C10.51 6.17 11.23 6 12 6c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3 0 .99-.48 1.85-1.21 2.4l1.41 1.41c1.09-.92 1.8-2.27 1.8-3.81zM3.71 4.56c-.39.39-.39 1.02 0 1.41l2.06 2.06h-.42c-3.28.35-5.76 3.34-5.29 6.79C.46 17.84 3.19 20 6.22 20h11.51l1.29 1.29c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L5.12 4.56c-.39-.39-1.02-.39-1.41 0zM6 18c-2.21 0-4-1.79-4-4s1.79-4 4-4h1.73l8 8H6z"/></svg></div><p class="qua-loading-screen__title">${text}</p></div>`;
+        elem.innerHTML = `
+        <div class="qua-loading-screen">
+            <div class="qua-loading-screen-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="var(--qua-overlay-theme)"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M24 15c0-2.64-2.05-4.78-4.65-4.96C18.67 6.59 15.64 4 12 4c-1.33 0-2.57.36-3.65.97l1.49 1.49C10.51 6.17 11.23 6 12 6c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3 0 .99-.48 1.85-1.21 2.4l1.41 1.41c1.09-.92 1.8-2.27 1.8-3.81zM3.71 4.56c-.39.39-.39 1.02 0 1.41l2.06 2.06h-.42c-3.28.35-5.76 3.34-5.29 6.79C.46 17.84 3.19 20 6.22 20h11.51l1.29 1.29c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L5.12 4.56c-.39-.39-1.02-.39-1.41 0zM6 18c-2.21 0-4-1.79-4-4s1.79-4 4-4h1.73l8 8H6z"/></svg>
+            </div>
+            <p class="qua-loading-screen__title">${text}</p>
+        </div>`;
+    }
+
+    function getCatalogue() {
+
     }
 
     // #region Themes catalog
@@ -45,112 +56,123 @@
         cards: []
     }
     let themeCards = [];
-    fetch('https://raw.githubusercontent.com/Quartyn/QuartTools/main/design/qua_themes.json')
-    .then(response => response.json())
-    .then(data => {
-        let qua_themes = data['qthemes'];
-        themeDataContent.status = 'ok';
-        for (let i = 0; i < qua_themes.length; i++) {
-            let themeInDevelopment = '';
-            let theme = {
-                name: qua_themes[i]['name'],
-                identifier: qua_themes[i]['identifier'] ?? theme.name,
-                url: qua_themes[i]['url'],
-                requested_by: qua_themes[i]['reqby'],
-                author: qua_themes[i]['author'] ?? 'Quartyn',
-                status: qua_themes[i]['status'] ?? '',
-                image: qua_themes[i]['image'],
-                id: qua_themes[i]['qname'],
-                website: qua_themes[i]['website'] ?? '#',
-                corporation: qua_themes[i]['by'],
-                version: qua_themes[i]['version'] ?? 'Beta'
-            };
+    // fetch(catalogue.default)
+    // .then(response => response.json())
+    // .then(data => {
+    //     console.log(data);
+    //     const themes = data['themes'];
+    //     const server = data['server'];
 
-            if (theme.status == 'In Development') {
-                themeInDevelopment = `<div class="qua-theme-overlay" title="In Development"><svg xmlns="http://www.w3.org/2000/svg" height="60px" viewBox="0 0 24 24" width="60px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12zm8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8z"/></svg></div>`;
-            } else {
-                if (isThisPage(theme.url)) theme.status = 'Recommended';
-            }
+    //     console.log(themes);
+    //     themes.forEach(data => {
+    //         let theme = new Theme(data, server);
+    //         document.body.appendChild(theme.element);
+    //         enableTheme(data.id, server, data);
+    //     });
+    //     return;
+    //     let qua_themes = data['qthemes'];
+    //     themeDataContent.status = 'ok';
+    //     for (let i = 0; i < qua_themes.length; i++) {
+    //         let themeInDevelopment = '';
+    //         let theme = {
+    //             name: qua_themes[i]['name'],
+    //             identifier: qua_themes[i]['identifier'] ?? theme.name,
+    //             url: qua_themes[i]['url'],
+    //             requested_by: qua_themes[i]['reqby'],
+    //             author: qua_themes[i]['author'] ?? 'Quartyn',
+    //             status: qua_themes[i]['status'] ?? '',
+    //             image: qua_themes[i]['image'],
+    //             id: qua_themes[i]['qname'],
+    //             website: qua_themes[i]['website'] ?? '#',
+    //             corporation: qua_themes[i]['by'],
+    //             version: qua_themes[i]['version'] ?? 'Beta'
+    //         };
 
-            if (window.location.host == theme.url || window.location.host.includes(theme.url)) {
-                document.documentElement.setAttribute('qua-theme:mode', 'dark');
-                document.documentElement.setAttribute('qua-theme:id', theme.url);
-                document.documentElement.setAttribute('qua-theme:path', window.location.pathname);
-                document.documentElement.setAttribute('qua-theme:domain', window.location.hostname);
-            }
+    //         if (theme.status == 'In Development') {
+    //             themeInDevelopment = `<div class="qua-theme-overlay" title="In Development"><svg xmlns="http://www.w3.org/2000/svg" height="60px" viewBox="0 0 24 24" width="60px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12zm8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8z"/></svg></div>`;
+    //         } else {
+    //             if (isThisPage(theme.url)) theme.status = 'Recommended';
+    //         }
 
-            themeDataHTML += `<qua-button role="button" tabindex="0" class="qua-theme-card quartyn-pretty-click" qua-theme:id="${theme.url}" qua-theme:website="${theme.website}" qua-theme:image="${theme.image}" qua-theme:name="${theme.identifier}" qua-theme:status="${theme.status}" ${quartynThemes[theme.url] == 'enabled' ? 'qua-theme\:active="true"' : 'qua-theme\:active="false"'}>
-                            ${themeInDevelopment}
-                            <div class="qua-theme-header">
-                                <p class="qua-theme-status-label">${theme.status}</p>
-                                <div class="qua-overlay-theme-card__header-controls">
-                                    <a class="qua-overlay-theme-card__header-controls-button" href='https://quartyn.com/tools/themes/${theme.url}/report' target="_blank" title="Report bug in ${theme.identifier} theme" aria-label="Report bug in ${theme.identifier} theme">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M14.4 6l-.24-1.2c-.09-.46-.5-.8-.98-.8H6c-.55 0-1 .45-1 1v15c0 .55.45 1 1 1s1-.45 1-1v-6h5.6l.24 1.2c.09.47.5.8.98.8H19c.55 0 1-.45 1-1V7c0-.55-.45-1-1-1h-4.6z"/></svg>
-                                    </a>
-                                    <a class="qua-overlay-theme-card__header-controls-button" href='${theme.website}' target='_blank' title="Visit official website • ${theme.website}" aria-label="Visit official website • ${theme.website}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h4v-2H5V8h14v10h-4v2h4c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-7 6l-4 4h3v6h2v-6h3l-4-4z"/></svg>
-                                    </a>
-                                    <qua-button class="qua-overlay-theme-card__header-controls-button" tabindex="0" role="button" title="Customize theme." aria-label="Customize theme." qua-action="customize">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M3 18c0 .55.45 1 1 1h5v-2H4c-.55 0-1 .45-1 1zM3 6c0 .55.45 1 1 1h9V5H4c-.55 0-1 .45-1 1zm10 14v-1h7c.55 0 1-.45 1-1s-.45-1-1-1h-7v-1c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1zM7 10v1H4c-.55 0-1 .45-1 1s.45 1 1 1h3v1c0 .55.45 1 1 1s1-.45 1-1v-4c0-.55-.45-1-1-1s-1 .45-1 1zm14 2c0-.55-.45-1-1-1h-9v2h9c.55 0 1-.45 1-1zm-5-3c.55 0 1-.45 1-1V7h3c.55 0 1-.45 1-1s-.45-1-1-1h-3V4c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .55.45 1 1 1z"/></svg>
-                                    </qua-button>
-                                </div>
-                            </div>
-                            <div class="qua-theme-icon">
-                                <img src="" alt="${theme.name} Logo">
-                            </div>
-                            <div class="qua-theme-info">
-                                <div class="qua-theme-status-enabled">
-                                    <p class="theme--active" title="This theme is Enabled">Enabled</p>
-                                    <p class="theme--unactive" title="This theme is disabled">Disabled</p>
-                                </div>
-                                <div class="qua-theme-card__name">${theme.name}</div>
-                                <div class="qua-theme-card__corporation">${theme.corporation}</div>
-                            </div>
-                            <div class="qua-theme-speci ${settings.overlaySettings['showThemeDetails'] == "on" ? 'qua-developer-mode' : ''}">
-                                <p class="qua-theme-version">${theme.version}</p>
-                                <p class="qua-theme-requester">Made by ${theme.author}</p>
-                            </div>
-                        </qua-button>`;
-            // themeDataHTML += `
-            // <qua-button role="button" tabindex="0" class="qua-theme-card quartyn-pretty-click" qua-theme:id="${theme.url}" qua-theme:website="${theme.website}" qua-theme:image="${theme.image}" qua-theme:name="${theme.identifier}" qua-theme:status="${theme.status}" ${quartynThemes[theme.url] == 'enabled' ? 'qua-theme\:active="true"' : 'qua-theme\:active="false"'}>
-            //     ${themeInDevelopment}
-            //     <div class="qua-theme-header">
-            //         <div class="qua-overlay-theme-card__header-controls">
-            //             <a class="qua-overlay-theme-card__header-controls-button" href='https://quartyn.com/tools/themes/${theme.url}/report' target="_blank" title="Report bug in ${theme.identifier} theme" aria-label="Report bug in ${theme.identifier} theme">
-            //                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M14.4 6l-.24-1.2c-.09-.46-.5-.8-.98-.8H6c-.55 0-1 .45-1 1v15c0 .55.45 1 1 1s1-.45 1-1v-6h5.6l.24 1.2c.09.47.5.8.98.8H19c.55 0 1-.45 1-1V7c0-.55-.45-1-1-1h-4.6z"/></svg>
-            //             </a>
-            //             <a class="qua-overlay-theme-card__header-controls-button" href='${theme.website}' target='_blank' title="Visit official website • ${theme.website}" aria-label="Visit official website • ${theme.website}">
-            //                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h4v-2H5V8h14v10h-4v2h4c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-7 6l-4 4h3v6h2v-6h3l-4-4z"/></svg>
-            //             </a>
-            //             <qua-button class="qua-overlay-theme-card__header-controls-button" tabindex="0" role="button" title="Customize theme." aria-label="Customize theme." qua-action="customize">
-            //                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M3 18c0 .55.45 1 1 1h5v-2H4c-.55 0-1 .45-1 1zM3 6c0 .55.45 1 1 1h9V5H4c-.55 0-1 .45-1 1zm10 14v-1h7c.55 0 1-.45 1-1s-.45-1-1-1h-7v-1c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1zM7 10v1H4c-.55 0-1 .45-1 1s.45 1 1 1h3v1c0 .55.45 1 1 1s1-.45 1-1v-4c0-.55-.45-1-1-1s-1 .45-1 1zm14 2c0-.55-.45-1-1-1h-9v2h9c.55 0 1-.45 1-1zm-5-3c.55 0 1-.45 1-1V7h3c.55 0 1-.45 1-1s-.45-1-1-1h-3V4c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .55.45 1 1 1z"/></svg>
-            //             </qua-button>
-            //         </div>
-            //     </div>
-            //     <div class="qua-overlay__theme-card--body">
-            //         <div class="qua-theme-info">
-            //             <div class="qua-theme-status-enabled" style="display: none;">
-            //                 <p class="theme--active" title="This theme is Enabled">Enabled</p>
-            //                 <p class="theme--unactive" title="This theme is disabled">Disabled</p>
-            //             </div>
-            //             <div class="qua-theme-card__name">${theme.name} <p class="qua-theme-status-label">${theme.status}</p></div>
-            //             <div class="qua-theme-card__corporation">${theme.corporation}</div>
-            //         </div>
-            //         <div class="qua-theme-icon">
-            //             <img src="" alt="${theme.name} Logo">
-            //         </div>
-            //     </div>
-            //     <div class="qua-theme-speci ${settings.overlaySettings['showThemeDetails'] == "on" ? 'qua-developer-mode' : ''}">
-            //         <p class="qua-theme-version">${theme.version}</p>
-            //         <p class="qua-theme-requester">Made by ${theme.author}</p>
-            //     </div>
-            // </qua-button>`;
-        }
-    }).catch(err => {
-        console.error('QuartTools: App was unable to communicate with Quartyn servers. If you have internet connection and this problem still shows, please contact me on instagram @Quartyn_. app::SERVER_ERROR');
-        themeDataContent.status = "error";
-        quartyn.error(err);
-    });
+    //         if (window.location.host == theme.url || window.location.host.includes(theme.url)) {
+    //             document.documentElement.setAttribute('qua-theme:mode', 'dark');
+    //             document.documentElement.setAttribute('qua-theme:id', theme.url);
+    //             document.documentElement.setAttribute('qua-theme:path', window.location.pathname);
+    //             document.documentElement.setAttribute('qua-theme:domain', window.location.hostname);
+    //         }
+
+    //         themeDataHTML += `<qua-button role="button" tabindex="0" class="qua-theme-card quartyn-pretty-click" qua-theme:id="${theme.url}" qua-theme:website="${theme.website}" qua-theme:image="${theme.image}" qua-theme:name="${theme.identifier}" qua-theme:status="${theme.status}" ${quartynThemes[theme.url] == 'enabled' ? 'qua-theme\:active="true"' : 'qua-theme\:active="false"'}>
+    //                         ${themeInDevelopment}
+    //                         <div class="qua-theme-header">
+    //                             <p class="qua-theme-status-label">${theme.status}</p>
+    //                             <div class="qua-overlay-theme-card__header-controls">
+    //                                 <a class="qua-overlay-theme-card__header-controls-button" href='https://quartyn.com/tools/themes/${theme.url}/report' target="_blank" title="Report bug in ${theme.identifier} theme" aria-label="Report bug in ${theme.identifier} theme">
+    //                                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M14.4 6l-.24-1.2c-.09-.46-.5-.8-.98-.8H6c-.55 0-1 .45-1 1v15c0 .55.45 1 1 1s1-.45 1-1v-6h5.6l.24 1.2c.09.47.5.8.98.8H19c.55 0 1-.45 1-1V7c0-.55-.45-1-1-1h-4.6z"/></svg>
+    //                                 </a>
+    //                                 <a class="qua-overlay-theme-card__header-controls-button" href='${theme.website}' target='_blank' title="Visit official website • ${theme.website}" aria-label="Visit official website • ${theme.website}">
+    //                                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h4v-2H5V8h14v10h-4v2h4c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-7 6l-4 4h3v6h2v-6h3l-4-4z"/></svg>
+    //                                 </a>
+    //                                 <qua-button class="qua-overlay-theme-card__header-controls-button" tabindex="0" role="button" title="Customize theme." aria-label="Customize theme." qua-action="customize">
+    //                                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M3 18c0 .55.45 1 1 1h5v-2H4c-.55 0-1 .45-1 1zM3 6c0 .55.45 1 1 1h9V5H4c-.55 0-1 .45-1 1zm10 14v-1h7c.55 0 1-.45 1-1s-.45-1-1-1h-7v-1c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1zM7 10v1H4c-.55 0-1 .45-1 1s.45 1 1 1h3v1c0 .55.45 1 1 1s1-.45 1-1v-4c0-.55-.45-1-1-1s-1 .45-1 1zm14 2c0-.55-.45-1-1-1h-9v2h9c.55 0 1-.45 1-1zm-5-3c.55 0 1-.45 1-1V7h3c.55 0 1-.45 1-1s-.45-1-1-1h-3V4c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .55.45 1 1 1z"/></svg>
+    //                                 </qua-button>
+    //                             </div>
+    //                         </div>
+    //                         <div class="qua-theme-icon">
+    //                             <img src="" alt="${theme.name} Logo">
+    //                         </div>
+    //                         <div class="qua-theme-info">
+    //                             <div class="qua-theme-status-enabled">
+    //                                 <p class="theme--active" title="This theme is Enabled">Enabled</p>
+    //                                 <p class="theme--unactive" title="This theme is disabled">Disabled</p>
+    //                             </div>
+    //                             <div class="qua-theme-card__name">${theme.name}</div>
+    //                             <div class="qua-theme-card__corporation">${theme.corporation}</div>
+    //                         </div>
+    //                         <div class="qua-theme-speci ${settings.overlaySettings['showThemeDetails'] == "on" ? 'qua-developer-mode' : ''}">
+    //                             <p class="qua-theme-version">${theme.version}</p>
+    //                             <p class="qua-theme-requester">Made by ${theme.author}</p>
+    //                         </div>
+    //                     </qua-button>`;
+    //         // themeDataHTML += `
+    //         // <qua-button role="button" tabindex="0" class="qua-theme-card quartyn-pretty-click" qua-theme:id="${theme.url}" qua-theme:website="${theme.website}" qua-theme:image="${theme.image}" qua-theme:name="${theme.identifier}" qua-theme:status="${theme.status}" ${quartynThemes[theme.url] == 'enabled' ? 'qua-theme\:active="true"' : 'qua-theme\:active="false"'}>
+    //         //     ${themeInDevelopment}
+    //         //     <div class="qua-theme-header">
+    //         //         <div class="qua-overlay-theme-card__header-controls">
+    //         //             <a class="qua-overlay-theme-card__header-controls-button" href='https://quartyn.com/tools/themes/${theme.url}/report' target="_blank" title="Report bug in ${theme.identifier} theme" aria-label="Report bug in ${theme.identifier} theme">
+    //         //                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M14.4 6l-.24-1.2c-.09-.46-.5-.8-.98-.8H6c-.55 0-1 .45-1 1v15c0 .55.45 1 1 1s1-.45 1-1v-6h5.6l.24 1.2c.09.47.5.8.98.8H19c.55 0 1-.45 1-1V7c0-.55-.45-1-1-1h-4.6z"/></svg>
+    //         //             </a>
+    //         //             <a class="qua-overlay-theme-card__header-controls-button" href='${theme.website}' target='_blank' title="Visit official website • ${theme.website}" aria-label="Visit official website • ${theme.website}">
+    //         //                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h4v-2H5V8h14v10h-4v2h4c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-7 6l-4 4h3v6h2v-6h3l-4-4z"/></svg>
+    //         //             </a>
+    //         //             <qua-button class="qua-overlay-theme-card__header-controls-button" tabindex="0" role="button" title="Customize theme." aria-label="Customize theme." qua-action="customize">
+    //         //                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M3 18c0 .55.45 1 1 1h5v-2H4c-.55 0-1 .45-1 1zM3 6c0 .55.45 1 1 1h9V5H4c-.55 0-1 .45-1 1zm10 14v-1h7c.55 0 1-.45 1-1s-.45-1-1-1h-7v-1c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1zM7 10v1H4c-.55 0-1 .45-1 1s.45 1 1 1h3v1c0 .55.45 1 1 1s1-.45 1-1v-4c0-.55-.45-1-1-1s-1 .45-1 1zm14 2c0-.55-.45-1-1-1h-9v2h9c.55 0 1-.45 1-1zm-5-3c.55 0 1-.45 1-1V7h3c.55 0 1-.45 1-1s-.45-1-1-1h-3V4c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .55.45 1 1 1z"/></svg>
+    //         //             </qua-button>
+    //         //         </div>
+    //         //     </div>
+    //         //     <div class="qua-overlay__theme-card--body">
+    //         //         <div class="qua-theme-info">
+    //         //             <div class="qua-theme-status-enabled" style="display: none;">
+    //         //                 <p class="theme--active" title="This theme is Enabled">Enabled</p>
+    //         //                 <p class="theme--unactive" title="This theme is disabled">Disabled</p>
+    //         //             </div>
+    //         //             <div class="qua-theme-card__name">${theme.name} <p class="qua-theme-status-label">${theme.status}</p></div>
+    //         //             <div class="qua-theme-card__corporation">${theme.corporation}</div>
+    //         //         </div>
+    //         //         <div class="qua-theme-icon">
+    //         //             <img src="" alt="${theme.name} Logo">
+    //         //         </div>
+    //         //     </div>
+    //         //     <div class="qua-theme-speci ${settings.overlaySettings['showThemeDetails'] == "on" ? 'qua-developer-mode' : ''}">
+    //         //         <p class="qua-theme-version">${theme.version}</p>
+    //         //         <p class="qua-theme-requester">Made by ${theme.author}</p>
+    //         //     </div>
+    //         // </qua-button>`;
+    //     }
+    // }).catch(err => {
+    //     console.error('QuartTools: App was unable to communicate with Quartyn servers. If you have internet connection and this problem still shows, please contact me on instagram @Quartyn_. app::SERVER_ERROR');
+    //     themeDataContent.status = "error";
+    //     quartyn.error(err);
+    // });
     function setImages() {
         let buttons = document.querySelectorAll('.qua-theme-card');
         buttons.forEach(button => {
@@ -193,6 +215,81 @@
                 })
             }
             buttons[i].removeAttribute('qua-theme:image');
+        }
+    }
+
+    class ThemeManager {
+        themes = [];
+
+        addTheme() {
+
+        }
+    }
+    class Theme {
+        element;
+        server;
+
+        constructor(config = {}, server = {}) {
+            let elem = document.createElement('div');
+            
+            elem.innerHTML = `
+            <qua-button role="button" tabindex="0" class="qua-theme-card quartyn-pretty-click">
+                <div class="qua-theme-header">
+                    <p class="qua-theme-status-label">TEST STATUS</p>
+                    <div class="qua-overlay-theme-card__header-controls">
+                        <a class="qua-overlay-theme-card__header-controls-button" href='https://quartyn.com/tools/themes/theme.url/report' target="_blank" title="Report bug in theme.identifier theme" aria-label="Report bug in theme.identifier theme">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M14.4 6l-.24-1.2c-.09-.46-.5-.8-.98-.8H6c-.55 0-1 .45-1 1v15c0 .55.45 1 1 1s1-.45 1-1v-6h5.6l.24 1.2c.09.47.5.8.98.8H19c.55 0 1-.45 1-1V7c0-.55-.45-1-1-1h-4.6z"/></svg>
+                        </a>
+                        <a class="qua-overlay-theme-card__header-controls-button" href='theme.website' target='_blank' title="Visit official website • theme.website" aria-label="Visit official website • theme.website">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h4v-2H5V8h14v10h-4v2h4c1.1 0 2-.9 2-2V6c0-1.1-.89-2-2-2zm-7 6l-4 4h3v6h2v-6h3l-4-4z"/></svg>
+                        </a>
+                        <qua-button class="qua-overlay-theme-card__header-controls-button" tabindex="0" role="button" title="Customize theme." aria-label="Customize theme." qua-action="customize">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M3 18c0 .55.45 1 1 1h5v-2H4c-.55 0-1 .45-1 1zM3 6c0 .55.45 1 1 1h9V5H4c-.55 0-1 .45-1 1zm10 14v-1h7c.55 0 1-.45 1-1s-.45-1-1-1h-7v-1c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1zM7 10v1H4c-.55 0-1 .45-1 1s.45 1 1 1h3v1c0 .55.45 1 1 1s1-.45 1-1v-4c0-.55-.45-1-1-1s-1 .45-1 1zm14 2c0-.55-.45-1-1-1h-9v2h9c.55 0 1-.45 1-1zm-5-3c.55 0 1-.45 1-1V7h3c.55 0 1-.45 1-1s-.45-1-1-1h-3V4c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .55.45 1 1 1z"/></svg>
+                        </qua-button>
+                    </div>
+                </div>
+                <div class="qua-theme-icon">
+                    <img src="" alt="theme.name Logo">
+                </div>
+                <div class="qua-theme-info">
+                    <div class="qua-theme-status-enabled">
+                        <p class="theme--active" title="This theme is Enabled">Enabled</p>
+                        <p class="theme--unactive" title="This theme is disabled">Disabled</p>
+                    </div>
+                    <div class="qua-theme-card__name">theme.name</div>
+                    <div class="qua-theme-card__corporation">theme.corporation</div>
+                </div>
+                <div class="qua-theme-speci settings.overlaySettings['showThemeDetails'] == "on" ? 'qua-developer-mode' : ''">
+                    <p class="qua-theme-version">theme.version</p>
+                    <p class="qua-theme-requester">Made by theme.author</p>
+                </div>
+            </qua-button>`;
+            this.element = elem;
+            this.server = server;
+            this.getIcon(config.icon);
+            return this;
+        }
+
+        getIcon(id = 'none') {
+            const defaultIcon = extensionAPI.runtime.getURL('/img/app/logo48.solid.png');
+            if (id == 'none' || id == false || id == null) return this.setIcon(defaultIcon);
+    
+            let fetchServer = themeServer + this.server['icons'] + id;
+            if (id.startsWith('https://') || id.startsWith('http://')) fetchServer = id;
+            fetch(fetchServer).then(res => res.blob())
+            .then(data => {
+                if (!data.type.startsWith('image/')) return this.setIcon(defaultIcon);
+                this.setIcon(URL.createObjectURL(data));
+            }).catch(err => {
+                return this.setIcon(defaultIcon);
+            });
+        }
+        setIcon(id = 'none' || false || null) {
+            const iconElement = this.element.querySelector('.qua-theme-icon img')
+            iconElement.onload = function() {
+                this.classList.add('qua-theme-icon--loaded');
+            }
+            iconElement.src = id;
         }
     }
 
@@ -630,52 +727,47 @@
     let online_theme_customization;
 
     // #region Enable & Disable theme
-    window.enableTheme = function(id) {
-        if (!isThisPage(id)) return;
+    window.enableTheme = function(id = "", server = {}, data = {}) {
+        if (!isThisPage(data.domain)) return;
         let theme_tag = document.querySelector('[qua-class="quartyn/theme-design"]');
         if (theme_tag) {
             theme_tag.removeAttribute('media');
             return document.documentElement.setAttribute('qua-theme:mode', 'dark');
         };
-        fetch(`https://raw.githubusercontent.com/Quartyn/QuartTools/main/design/themes/${id}.qtheme.css`)
-        .then(response => response.text())
+        // fetch(`https://raw.githubusercontent.com/Quartyn/QuartTools/main/design/themes/${id}.qtheme.css`)
+        fetch(themeServer + server.files + id + '.theme.css')
+        .then(res => res.text())
         .then(async data => {
-            let userCustomization = await getCustomization({
-                id: id
+            if (data == '404: Not Found') return quartyn.error('We are unable to find this theme on our servers. If you think this is an issue, please, send me a feedback.');
+
+            // Extract config from file
+            let fileConfig = data.split('/* theme.config').pop().split('config.end */').shift().trim().split('\n');
+            let config = {};
+            fileConfig.forEach(line => {
+                if (!data.includes('theme.config')) return false;
+                line = line.trim();
+                if (line.includes(": ")) line = line.split(": ");
+                if (line.includes(":")) line = line.split(":");
+                config[line.at(0).toLowerCase()] = line.at(1);
             });
 
-            if (userCustomization) {
-                for (let themeCustomizationID in userCustomization) {
-                    console.log(userCustomization[themeCustomizationID]);
-                }
-            }
+            // let userCustomization = await getCustomization({
+            //     id: id
+            // });
 
-            // #region Get details from code
-            let themeLibraryVersion = 'Oh no! I don\'t know.'
-            if (data.split('/*')[1].split('*/')[0].includes('•')) {
-                themeLibraryVersion = data.split('Version ')[1].split(' • Updated')[0];
-            } else {
-                themeLibraryVersion = data.split('Version ')[1].split(' Updated')[0];
-            }
-            let themeLibraryDate = data.split('Updated: ')[1].split(' */')[0];
-            let themeLibraryAuthor = data.split('Author: ')[1].split(' */')[0];
-            let themeLibraryName = data.split('Theme: ')[1].split(' */')[0];
-            // #endregion
+            // if (userCustomization) {
+            //     for (let themeCustomizationID in userCustomization) {
+            //         console.log(userCustomization[themeCustomizationID]);
+            //     }
+            // }
 
             // #region Pretty print of details
-            console.group(`%cQuartTools%c Custom theme by Quartyn! (${window.location.href})`, 'color: #fff; font-weight: 500; font-family: "Outfit", sans-serif; padding: 2px 7px; margin-right: 5px; background-color: #8d87fd; border-radius: 4px;', 'font-family: Outfit, sans-serif; color: #fff; font-weight: 400;');
-            console.log(`%cVersion:%c ${themeLibraryVersion} • %cUpdated:%c ${themeLibraryDate}`, 'color: #8d87fd; font-family: "Outfit", sans-serif;', 'color: #fff; font-family: "Outfit", sans-serif;', 'color: #8d87fd; font-family: "Outfit", sans-serif;', 'color: #fff; font-family: "Outfit", sans-serif;');
-            console.log('%cAuthor:%c ' + themeLibraryAuthor, 'color: #8d87fd; font-family: "Outfit", sans-serif;', 'color: #fff; font-family: "Outfit", sans-serif;');
-            console.log('%cTheme:%c ' + themeLibraryName, 'color: #8d87fd; font-family: "Outfit", sans-serif;', 'color: #fff; font-family: "Outfit", sans-serif;');
-            console.log(`%cCSS Code:%c If you want to see css code, go to check out my Github. https://github.com/Quartyn/QuartTools`, 'color: #8d87fd; font-family: "Outfit", sans-serif;', 'color: #fff; font-family: "Outfit", sans-serif;');
+            console.group(`%cQuartTools%c Custom theme by ${config.author ?? 'Unknown'}! (${window.location.href})`, 'color: #fff; font-weight: 500; font-family: "Outfit", sans-serif; padding: 2px 7px; margin-right: 5px; background-color: #8d87fd; border-radius: 4px;', 'font-family: Outfit, sans-serif; color: #fff; font-weight: 400;');
+            console.log(`%cVersion:%c ${config.version ?? '?'} • %cUpdated:%c ${config.updated ?? "?"}`, 'color: #8d87fd; font-family: "Outfit", sans-serif;', 'color: #fff; font-family: "Outfit", sans-serif;', 'color: #8d87fd; font-family: "Outfit", sans-serif;', 'color: #fff; font-family: "Outfit", sans-serif;');
+            console.log('%cAuthor:%c ' + (config.author ?? 'Unknown'), 'color: #8d87fd; font-family: "Outfit", sans-serif;', 'color: #fff; font-family: "Outfit", sans-serif;');
+            console.log('%cTheme:%c ' + (config.theme ?? '?'), 'color: #8d87fd; font-family: "Outfit", sans-serif;', 'color: #fff; font-family: "Outfit", sans-serif;');
+            console.log(`%cCSS Code:%c If you want to see the css code, check the website hosting this theme. ${config.source ?? 'Source is missing.'}`, 'color: #8d87fd; font-family: "Outfit", sans-serif;', 'color: #fff; font-family: "Outfit", sans-serif;');
             console.groupEnd();
-            // #endregion
-
-            // #region Error when theme is down.
-            if (data == '404: Not Found') {
-                quartyn.error('We are unable to find this theme on our servers. If you think this is an issue, please, send me a feedback.');
-                return;
-            }
             // #endregion
 
             // #region Customization
@@ -713,7 +805,7 @@
             }
             // #endregion
 
-            // #region Insert to site
+            // #region Insert theme to the site
             checkHeaders().then(() => {
                 let el = document.querySelector('quartyn > qua-design');
                 let style = document.createElement('style');
@@ -723,8 +815,7 @@
             })
             // #endregion
 
-        })
-        .catch((error) => {
+        }).catch(error => {
             quartyn.error('[429:enableTheme] Unable to find wanted theme. Reason: ', error);
         });
     }

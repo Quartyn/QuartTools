@@ -10,7 +10,7 @@ class Controls {
         video_controls.innerHTML = `
         <div class="qua-overlay-app_video-controls_background" qua-overlay-action="video-controls.background"></div>
         <div class="qua-small-notification">
-          <img width="32" height="32" src="${myExtensionLink}img/app/logo48.png">
+          <img width="32" height="32" src="${extensionURL}img/app/logo48.png">
           <p>Ad was closed</p>
         </div>
         `;
@@ -61,11 +61,13 @@ class Player {
 }
 
 let player = new Player;
+console.log('QuartTools SCRIPT READY')
 let controls = new Controls;
 
 document.addEventListener('readystatechange', function() {
     if (document.readyState != 'interactive') return;
-    // console.log(document.readyState);
+    console.log(document.readyState);
+    console.log('QuartTools are ready!');
     handlePages();
 });
 
@@ -98,6 +100,8 @@ function initWatch() {
     player.setPlayer(element);    
     player.setControls(controls.child);
     player.testAd();
+
+console.log('QuartTools: initWatch enabled');
 
     const classObserver = new MutationObserver(classChanged);
     classObserver.observe(player.player, { attributes: true, attributeFilter: ['class'] });

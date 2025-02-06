@@ -5,7 +5,32 @@
     },
     "themes": [
         {
-
+            "id": "blank.org",
+            "domain": "blank.org",
+            "website": "https://blank.org",
+            "name": "Blank",
+            "icon": null,
+            "version": "1.0.0",
+            "author": "Quartyn"
+        },
+        {
+            "id": "accounts.google.com",
+            "domain": "accounts.google.com",
+            "website": "https://accounts.google.com",
+            "name": "Google Accounts",
+            "icon": null,
+            "version": "0.3.1",
+            "author": "Quartyn"
+        },
+        {
+            "id": "one.google.com",
+            "domain": "one.google.com",
+            "website": "https://one.google.com",
+            "name": "One",
+            "by": "Google",
+            "qname": "GoogleOne",
+            "icon": "google-one.png",
+            "version": "1.1.0"
         }
     ]
 }

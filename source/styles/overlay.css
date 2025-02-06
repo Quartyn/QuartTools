@@ -1,17 +1,10 @@
+@import url('./fonts.css');
 /*
   SUPPORT - Browser compatibility
 
   Change all moz-extension:// to chrome-extension://
 
 */
-
-/* #region Fonts • Outfit */
-@font-face {
-  font-family: 'Outfit';
-  display: swap;
-  src: url(moz-extension://__MSG_@@extension_id__/fonts/Outfit/Outfit-VariableFont_wght.ttf);
-}
-/* #endregion */
 
 /* #region Main */
 
@@ -1852,7 +1845,8 @@ p.qsmall-msg {
   position: relative;
 }
 .qua-overlay-account-picture_image {
-  --qua-image: url('moz-extension://__MSG_@@extension_id__/img/app/profile.png');;
+  /* --qua-image: url('moz-extension://__MSG_@@extension_id__/img/app/profile.png'); */
+  --qua-image: url('../img/app/profile.png');
   position: absolute;
   width: 100%;
   height: 100%;
