@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Build extension",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run", "build"
+            ],
+            "cwd": "${workspaceFolder}/source",
+            "console": "integratedTerminal"
+        }
+    ]
+}
