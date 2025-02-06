@@ -1,7 +1,7 @@
 {
     "updated": "2025-01-20_17-10-00",
     "themes": {
-        "catalogue": "https://raw.githubusercontent.com/Quartyn/QuartTools/main/themes/catalogue.json"
+        "catalogue": "https://raw.githubusercontent.com/Quartyn/QuartTools/master/themes/catalogue.json"
     },
     "extra": {
         "css": [],
