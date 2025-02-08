@@ -1,406 +1,159 @@
-(async function(document) {
-    let chromePath = chrome.runtime.getURL('/');
+class Controls {
+    body;
+    child;
+    defaultBackground = 'vaporwave_traveller.jpg';
+    allowedBackgrounds = ["vaporwave_traveller.jpg"];
 
-    document.addEventListener('readystatechange', function() {
-      console.log(document.readyState);
-      if (document.readyState != "complete") return;
-
-      videoControlsInit();
-    });
-  
-    // #region YouTube
-    if (window.location.host === 'www.youtube.com') {
-      // let pageStatus = setInterval(() => {
-      //   if (document.readyState == "complete") {
-      //     videoControlsInit();
-      //     clearInterval(pageStatus);
-      //   }
-      // }, 100);
-  
-      // #region qAdManager --- DONE
-      let AdNo = false, AdYes = true, Ads1 = true, qSkip = false;
-      setInterval(() => {
-        const YouTubeAdManager = document.querySelector('#movie_player.ad-showing');
-        const VideoAdClose = document.querySelector('.ytp-ad-skip-button');
-        const MuteBtn = document.querySelector('.ytp-volume-area');
-        const Video = document.querySelector('#movie_player > .html5-video-container > video');
-        const CloseAd = document.querySelector('.ytp-ad-overlay-close-container .ytp-ad-overlay-close-button');
-        
-        function muteFunction() {
-          if (settings.options['muteAd'] === 'on') { // muteAd
-            if (YouTubeAdManager) {
-              if (Video.muted) return;
-              Video.muted = true;
-              MuteBtn.classList.add('qmanager');
-            } else {
-              MuteBtn.classList.remove('qmanager');
-              Video.muted = false;
-            }
-          }
-        }
-        function skipAd() {
-          setTimeout(() => {
-            let skipButton = document.querySelector('.ytp-ad-skip-button');
-            if (skipButton) {
-              quartyn.success('Skipping Ad..');
-              skipButton.click();
-              qSkip = true;
-            } else {
-              quartyn.error('We cannot skip this ad for you');
-            }
-          }, 5000);
-        }
-        
-        if (CloseAd) { // Small ads Closer -- Done
-          if (settings.options['closeAd'] === 'on') {
-            if (Ads1) {
-              Ads1 = false;
-              setTimeout(() => {
-                CloseAd.click();
-                // smallNotification('Ad was closed');
-                videoNotification();
-                quartyn.log('ImageAd was closed.');
-                qStats('image');
-                Ads1 = true;
-              }, 2000);
-            }
-          }
-        }
-  
-        if (YouTubeAdManager) { // Video ad Detector
-          if (AdYes) {
-            AdYes = false;
-            AdNo = true;
-            if (settings.options['adSkip'] === 'on') {
-              let value = Video.src;
-              let checkAd = setInterval(() => {
-                if (Video.src !== value) {
-                  if (YouTubeAdManager) {
-                    if (AdNo === true) {
-                      clearInterval(checkAd);
-                      muteFunction();
-                      skipAd();
-                      qStats('ads');
-                    }
-                  }
-                }
-              }, 500);
-              quartyn.log('Ad Overlay Found!');
-              skipAd();
-              qStats('ads');
-            }
-            muteFunction();
-          }
-        } else {
-          if (AdNo) {
-            AdNo = false;
-            AdYes = true;
-            muteFunction();
-            if (qSkip) {
-              qSkip = false;
-              qStats('video');
-              quartyn.success('I skipped and ad for you.');
-            }
-          }
-        }
-      }, 100);
-      // #endregion
-  
-      // #region DOM --- WORKING
-      let pathname = window.location.pathname;
-      let last_search = window.location.search;
-  
-    //   document.addEventListener("DOMSubtreeModified", (e) => {
-    //     if (window.location.search == last_search) return;
-  
-    //     last_search = window.location.search;
-    //     pathname = window.location.pathname;
-  
-    //     if (pathname == '/watch') {
-    //       videoControlsInit();
-    //     }
-    //   });
-
-      const bodyChecker = new MutationObserver((mutationsList, observer) => {
-        for (const mutation of mutationsList) {
-            console.log('NOT CHILDLIST');
-            if (mutation.type === 'childList') {
-                let currentSearch = window.location.search;
-                console.log('Element updated!');
-                
-                if (currentSearch !== last_search) {
-                    console.log('Element updated from not current search');
-                    last_search = currentSearch;
-                    pathname = window.location.pathname;
-
-                    if (pathname === '/watch') {
-                        videoControlsInit();
-                    }
-                }
-            }
-        }
-      });
-
-      let bodyConfig = {
-        childList: true,
-      };
-
-      setTimeout(() => {
-          bodyChecker.observe(document, bodyConfig);
-          console.log('Setted!');
-      }, 5000);
-      //#endregion
-  
-      // #region Live chat
-      // let messageTag = 'yt-live-chat-text-message-renderer';
-      // let username = 'Quartyn';
-      // let audio = new Audio(`${chromePath}audio/ping.mp3`);
-      // let observer = new MutationObserver(function(mutations_list) {
-      //   mutations_list.forEach(function(mutation) {
-      //     mutation.addedNodes.forEach(function(messageElement) {
-      //       if (messageElement.tagName.toLowerCase() !== messageTag) return;
-      //       if (messageElement.className.includes('qua-youtube:pinged')) return;
-  
-      //       let author = messageElement.querySelector('#author-name').textContent;
-      //       let message = messageElement.querySelector('#message').textContent;
-      //       let image = messageElement.querySelector('#author-photo img').src;
-      //       messageElement.classList.add('qua-youtube:pinged');
-  
-      //       // console.log(`%c${author}: %c${message}`, 'font-family: "Outfit", sans-serif; color: #8d87fd;', 'font-family: "Outfit", sans-serif; color: #fff;');
-  
-      //       if (message.toLowerCase().includes(`@${username.toLowerCase()}`) || message.toLowerCase().includes(username.toLowerCase())) {
-      //         console.log(`You have been mentioned by ${author}!\n${message}\n${new Date().toLocaleTimeString()}`);
-              
-      //         if (audio.paused) {
-      //           audio.play();
-      //         }
-      //         let notification = new Notification(`${author} mentioned you!`, {
-      //           icon: image,
-      //           body: message,
-      //           tag: "quartyn.chat.mention"
-      //          });
-      //          notification.onclick = function() {
-      //           notification.close();
-      //         };
-      //       }
-  
-      //     });
-      //   });
-      // });
-      
-      // window.addEventListener('load', function setChat() {
-      //   let chatContainer = document.querySelector("#items.yt-live-chat-item-list-renderer");
-      //   // if (!document.querySelector('#items.yt-live-chat-item-list-renderer')) {
-      //   //   setTimeout(() => {
-      //   //     console.log('Retrying chat injection');
-      //   //     setChat();
-      //   //   }, 3000);
-      //   //   return;
-      //   // }
-      //   console.log(window.location.href);
-      //   setTimeout(() => {
-      //     if (chatContainer) {
-      //       observer.observe(chatContainer, { subtree: false, childList: true });      
-      //       console.log('Chat was injected!');
-      //     }
-      //   }, 6000);
-      // });
-      // #endregion
-  
-    }
-    // #endregion YouTube
-  
-    // #region YouTube Music
-    if (window.location.host === 'music.youtube.com') {
-      let pageStatus = setInterval(() => {
-        if (document.readyState == "complete") {
-          videoControlsInit();
-          clearInterval(pageStatus);
-        }
-      }, 100);
-    
-      let pathname = window.location.pathname;
-      let last_search = window.location.search;
-      document.addEventListener("DOMSubtreeModified", (e) => {
-        if (window.location.search == last_search) return;
-  
-        last_search = window.location.search;
-        pathname = window.location.pathname;
-  
-        if (pathname == '/watch') {
-          videoControlsInit();
-        }
-      });
-    
-      // #region Ads Manager --- DONE
-      let AdNo = true,
-      AdYes = true;
-      setInterval(() => {
-        const AdOverlay = document.querySelector('.video-ads.ytp-ad-module > .ytp-ad-player-overlay');
-        const VideoAdClose = document.querySelector('.ytp-ad-skip-button');
-        const Video = document.querySelector('video');
-        if (AdOverlay) {
-          if (AdYes) {
-            AdYes = false;
-            AdNo = true;
-            if (Video.muted) {
-            } else {
-              Video.muted = true;
-              sessionStorage.setItem('qtools-video-muted', 'true');
-            }
-          }
-          setInterval(() => {
-            if (VideoAdClose) {
-              VideoAdClose.click();
-            }
-          }, 5000);
-        } else {
-          if (AdNo) {
-            AdNo = false;
-            AdYes = true;
-            if (sessionStorage.getItem('qtools-video-muted') === 'true') {
-              sessionStorage.removeItem('qtools-video-muted');
-              Video.muted = false;
-            }
-          }
-        }
-      }, 10);
-      //#endregion
-    }
-    // #endregion
-  
-    // #region Functions
-    let ANIMATION_DURATION = 5000;
-    function videoNotification() {
-      let notificationContainer = document.querySelector('.qua-small-notification');
-      if (notificationContainer) {
-        notificationContainer.classList.add('qua-active');
-        setTimeout(() => {
-          notificationContainer.classList.remove('qua-active');
-        }, ANIMATION_DURATION);
-        return;
-      }
-      notificationContainer = document.createElement('div');
-      notificationContainer.className = 'qua-small-notification';
-      notificationContainer.innerHTML = `
-      <img width="32" height="32" src="${chromePath}img/app/logo48.png">
-      <p>Ad was closed</p>
-      `;
-      document.querySelector('.qua-video-controls').appendChild(notificationContainer);
-    }
-  
-    function setShort() {
-      let reel = document.querySelector('#shorts-container').querySelector('ytd-reel-video-renderer[is-active]:not(:has(.quartyn-volume))');
-      console.log('Quartyn | #Shorts');
-      let volume = localStorage.getItem('qua:shorts-volume') == null ? .8 : localStorage.getItem('qua:shorts-volume');
-  
-      if (reel.querySelector('video') === null) {
-        setTimeout(() => {
-          setShort()
-        }, 500);
-        return;
-      }
-      reel.querySelector('video').volume = volume;
-  
-      let volumeManager = document.createElement('div');
-      volumeManager.className = 'quartyn-volume';
-      volumeManager.style = `position: absolute;`;
-      let volumeInput = document.createElement('input');
-      volumeInput.type = 'range';
-      volumeInput.min = '0';
-      volumeInput.max = '100';
-      volumeInput.value = volume * 100;
-      volumeInput.addEventListener('input', function() {
-        console.log(`Volume was changed to ${this.value}`);
-        reel.querySelector('video').volume = this.value / 100;
-        localStorage.setItem('qua:shorts-volume', this.value / 100);
-      });
-      
-      volumeManager.appendChild(volumeInput);
-      console.log('Test Version 4.0');
-      console.log(reel);
-      reel.querySelector('#player-container ytd-shorts-player-controls').appendChild(volumeManager);
-    }
-  
-    function videoControlsInit() {
-      quartyn.log(`Video controls for ${window.location.href} are loading..`);
-      if (window.location.pathname == "/watch") {
-        let video_players = document.querySelectorAll('#movie_player');
+    constructor() {
         let video_controls = document.createElement('div');
-        video_controls.className = 'qua-video-controls';
+        video_controls.className = `qua-overlay-app_video-controls`;
         video_controls.innerHTML = `
-        <div class="q-background" qua-selector="qua-video-background"></div>
+        <div class="qua-overlay-app_video-controls_background" qua-overlay-action="video-controls.background"></div>
         <div class="qua-small-notification">
-          <img width="32" height="32" src="${chromePath}img/app/logo48.png">
+          <img width="32" height="32" src="${extensionURL}images/icons/logo48.png">
           <p>Ad was closed</p>
-        </div>`;
-        let videoBackground = video_controls.querySelector('[qua-selector="qua-video-background"]');
-  
-        // let custom_background = settings.options['custom_background'] == undefined ? 'vaporwave_traveller.jpg' : settings.options['custom_background'];
-        let custom_background = settings?.options['custom_background'] ?? 'vaporwave_traveller.jpg';
-        fetch(`${chromePath}img/images/${custom_background}`)
-        .then((response) => response.text())
-        .then((data) => {
-          videoBackground.style.backgroundImage = `url(${chromePath}img/images/${custom_background})`;
-        })
-        .catch(err => {
-          videoBackground.style.backgroundImage = `url(${chromePath}img/images/vaporwave_traveller.jpg)`;
-          // saveStorage('custom_background', 'vaporwave_traveller.jpg', 2);
-          requestSave({
-            options: {
-              'custom_background': 'vaporwave_traveller.jpg'
+        </div>
+        `;
+
+        this.child = video_controls;
+        if (settings) this.setBackground();
+    }
+
+    setBackground(id = settings?.options['custom_background'] ?? this.defaultBackground) {
+        this.child.querySelector('[qua-overlay-action="video-controls.background"]').style.backgroundImage = `url(${extensionURL}images/backgrounds/${id})`;
+    }
+}
+class Player {
+    video;
+    player;
+    controls;
+    hasAd = false;
+
+    testAd() {
+        this.player.classList.add('ad-showing');
+    }
+
+    setPlayer(element) {
+        this.player = element;
+        this.video = this.player.querySelector('video');
+    }
+    setControls(controls) {
+        if (this.hasControls()) return console.log('Controls are already inserted');
+        this.controls = controls;
+        console.log(this.player, this.controls);
+        this.player.appendChild(this.controls);
+    }
+    hasControls() {
+        if (this.player.querySelector('.qua-overlay-app_video-controls')) return true;
+        return false;
+    }
+
+    setVolume(volume) {
+        if (this.video.volume == volume) return;
+
+        this.lastVolume = this.video.volume;
+        this.video.volume = volume;
+    }
+    recoverVolume() {
+        this.video.volume = this.lastVolume;
+    }
+    
+    skipVideoAd() {
+        // const respect5Seconds = settings?.options['youtube.respectAds'] ?? true;
+        const respect5Seconds = settings?.options['youtube.respectAds'] ?? false;
+        const waitBeforeSkip = respect5Seconds ? 5000 : 1000; // At least one second, because youtube is just terrible. to load.
+
+        setTimeout(() => {
+            const skipButton = document.querySelector('.ytp-ad-skip-button');
+            
+            // Try native way of skipping (probably will not work)
+            if (skipButton) skipButton.click();
+
+            // Force skip video ads
+            this.video.currentTime = this.video.duration;
+            quartyn.success('Skipping video ad..');
+        }, waitBeforeSkip);
+    }
+}
+
+// Added simple debugger for development purposes
+// REMOVE: Debugger on YouTube
+window.addEventListener('keydown', function(e) {
+    if (e.key !== 'F8') return false;
+    debugger;
+});
+
+let player = new Player;
+let controls = new Controls;
+
+document.addEventListener('readystatechange', function() {
+    if (document.readyState != 'interactive') return;
+    console.log(document.readyState);
+    handlePages();
+});
+
+let lastWindow = {
+    search: window.location.search,
+    path: window.location.pathname,
+}
+
+function handlePages() {
+    if (lastWindow.path === '/watch') return initWatch();
+}
+
+function handleChanges(mutationsList, observer) {
+    for (const mutation of mutationsList) {
+        if (mutation.type === 'childList' && mutation.target === document.body) {
+            if (window.location.search !== lastWindow.search) {
+                lastWindow.search = window.location.search;
+                lastWindow.path = window.location.pathname;
+                
+                handlePages();
             }
-          });
-          
-          quartyn.error(err);
-        });
-  
-        video_players.forEach(player => {
-          if (player.querySelector('.qua-video-controls')) return;
-          if (settings.options['customBg'] == "on") {
-            player.setAttribute('qua-background', 'true');
-          } else {
-            player.removeAttribute('qua-background');
-          }
-          player.appendChild(video_controls);
-          quartyn.log('Video controls were successfully imported to the video');
-        });
-      }
-      if (window.location.pathname.includes('/shorts/')) {
-        window.onload = () => {
-          let setScroller = setInterval(() => {
-            if (document.querySelector('#shorts-container')) {
-              document.querySelector('#shorts-container').addEventListener('scroll', setShort);
-              clearInterval(setScroller);
-              setShort();
-            }
-          }, 100);
-          if (localStorage.getItem('qua:shorts-notification') === null) {
-            let shortsNotification = oneActionNotification('We added Shorts Volume changer', 'Now you can control youtube shorts volume', 'Ok');
-            document.querySelector(`[qid="${shortsNotification.id}"] ${shortsNotification.button}`).addEventListener('click', function () {
-              this.closest('.quartyn-notification').setAttribute('qremoving', '');
-              setTimeout(() => {
-                this.closest('.quartyn-notification').remove();
-              }, 400);
-              
-              localStorage.setItem('qua:shorts-notification', 'false');
-            });
-          }
         }
-      }
     }
-    function qStats(t) {
-      let qmsg = {
-        qua: "stats",
-        type: t
-      }
-  
-      try {
-        chrome.runtime.sendMessage(qmsg);
-      } catch(err) {
-        q.err('It Seems, that Extension was Updated in the Background... Refresh Tab to apply New Version.');
-      }
+}
+const observer = new MutationObserver(handleChanges);
+observer.observe(document, { childList: true, subtree: true });
+
+function initWatch() {
+    let element = document.querySelector('#movie_player');
+    player.setPlayer(element);    
+    player.setControls(controls.child);
+
+    const classObserver = new MutationObserver(classChanged);
+    classObserver.observe(player.player, { attributes: true, attributeFilter: ['class'] });
+    const sourceObserver = new MutationObserver(sourceChanged);
+    sourceObserver.observe(player.video, { attributes: true, attributeFilter: ['src'] });
+}
+
+function sourceChanged(mutationsList, observer) {
+    for (const mutation of mutationsList) {
+        if (mutation.type !== 'attributes' || mutation.attributeName !== 'src') continue;
+
+        if (player.hasAd) {
+            if (settings.options['muteAd']) player.setVolume(0);
+        } else {
+            if (settings.options['muteAd']) player.recoverVolume();
+        }
     }
-  
-// #endregion
-})(document);
+}
+
+function classChanged(mutationsList, observer) {
+    for (const mutation of mutationsList) {
+        if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') continue;
+
+        if (mutation.target.className.includes('ad-showing')) {
+            if (player.hasAd) continue;
+
+            player.hasAd = true;
+            if (settings.options['muteAd']) player.setVolume(0)
+            player.skipVideoAd();
+        } else {
+            if (!player.hasAd) continue;
+
+            player.hasAd = false;
+            if (settings.options['muteAd']) player.recoverVolume();
+        }
+    }
+}
