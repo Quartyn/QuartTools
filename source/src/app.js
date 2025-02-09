@@ -1354,37 +1354,32 @@ function feedbackInit() {
     });
 }
 function initMusic() {
-    quartyn.log(`initMusic() has beed successfully launched!`);
-    // let loadButton = document.querySelector('[qua-overlay-action="music.load"]');
-    // let loadScreen = document.querySelector('[qua-overlay-action="music.load.screen"]');
-    // let playlistList = document.querySelector('[qua-overlay-action="music.list"]');
+    const playlists = [
+        "https://open.spotify.com/embed/playlist/2VixhP22MboCYtZWcgrtjX?utm_source=QuartTools",
+        "https://open.spotify.com/embed/playlist/0EUNsRP0esKrnbn13yXheR?utm_source=QuartTools",
+        "https://open.spotify.com/embed/playlist/7sqizqKubPlO8xSTn6znrA?utm_source=QuartTools"    
+    ]
     let load_button = overlaySelect('music.load-button');
     let load_screen = overlaySelect('music.load-screen');
     let playlist_list = overlaySelect('music.list');
-    let playlists = `
-    <div>
-        <iframe qtag="quartyn-music" style="visibility:hidden;" onload="this.style.visibility = 'visible';" loading="lazy" src="https://open.spotify.com/embed/playlist/2VixhP22MboCYtZWcgrtjX?utm_source=generator" width="100%" height="380" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-        <div class="qua-loading">
-            <qloader></qloader>
-        </div>
-    </div>
-    <div>
-        <iframe qtag="quartyn-music" style="visibility:hidden;" onload="this.style.visibility = 'visible';" loading="lazy" src="https://open.spotify.com/embed/playlist/0EUNsRP0esKrnbn13yXheR?utm_source=generator" width="100%" height="380" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-        <div class="qua-loading">
-            <qloader></qloader>
-        </div>
-    </div>
-    <div>
-        <iframe qtag="quartyn-music" style="visibility:hidden;" onload="this.style.visibility = 'visible';" loading="lazy" src="https://open.spotify.com/embed/playlist/7sqizqKubPlO8xSTn6znrA?utm_source=generator" width="100%" height="380" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-        <div class="qua-loading">
-            <qloader></qloader>
-        </div>
-    </div>
-    `;
-    load_button.addEventListener('click', function() {
+
+    load_button.addEventListener('click', function() {        
+        playlists.forEach(playlist => {
+            const playlist_container = document.createElement('div');
+            playlist_container.innerHTML = `
+            <iframe qtag="quartyn-music" style="visibility:hidden;" loading="lazy" src="" width="100%" height="380" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            <div class="qua-loading">
+                <qloader></qloader>
+            </div>`
+            const iframe = playlist_container.querySelector('iframe');
+            iframe.addEventListener('load', function() {
+                this.style.visibility = 'visible';
+            });
+            iframe.src = playlist;
+            playlist_list.appendChild(playlist_container);
+        });
         load_screen.remove();
-        playlist_list.innerHTML = playlists;
-    });
+    });   
 }
 
 function welcomeScreen(data) {
