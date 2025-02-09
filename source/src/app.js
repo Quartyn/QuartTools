@@ -1,6 +1,3 @@
-console.log('%cStop!', 'color: red; font-size: 45px; font-family: "Outfit", sans-serif;');console.log('%cThis is a browser tool meant for developers! Do not paste anything in here unless you know exactly what you are doing! If someone told you to paste something in here, they are most likely trying to gain access to your Accounts or Browser.', 'color: red; font-size: 27px; font-family: "Outfit", sans-serif;');let q = { log: function (message, type, color, more) { quaLogFun(message, type, color, more); }, warn: function (message) { quaLogFun(message, 'warn', 'orange'); }, err: function (message) { quaLogFun(message, 'error', 'red'); }, obj: function (message) { quaLogFun(message, 'clr'); } }; function quaLogFun(message, type, c = 'white', more) { if (message === undefined) return; if (c !== undefined) c = `color:${c};`; if (more !== undefined) more = `color:${more};`; if (type === 'clr') { console.log(message); return; } if (type === undefined) { console.log(`%cQuartTools %c${message}`, 'color:cyan;font-weight:bold;', c); return; } if (more !== undefined) { console.log(`%cQuartTools [%c${type}%c]: %c${message}`, 'color:cyan;font-weight:bold;', 'color:white;', 'color:cyan;font-weight:bold;', c, more); return; } console.log(`%cQuartTools [%c${type}%c]: %c${message}`, 'color:cyan;font-weight:bold;', 'color:white;', 'color:cyan;font-weight:bold;', c); }
-// #region importOverlay && Overlay Events
-
 // #region Functions & Variables
 let loadedApps = [];
 let colors = {
@@ -132,43 +129,39 @@ BrowserApi.runtime.onMessage.addListener(
 
 initializeApp();
 function initializeApp() {
-    console.log('app is loading')
-    if (!settings) {
-        console.info('Settings are missing');
-        return setTimeout(initializeApp, 10)
-    };
+    if (!settings) return setTimeout(initializeApp, 10);
     importOverlay();
 
-    if (!settings?.account?.isLogged) return;
+    // if (!settings?.account?.isLogged) return;
     checkVersion();
 }
 
-async function importOverlay(mode = "full") {
-    console.log('importing overlay');
-    document.documentElement.setAttribute('quartyn-tools', '');
+function importOverlay(mode = "full") {
     quartyn.log(`Adding Overlay on ${window.location.href}`);
 
     // #region Import overlay ui to the website
     fetch(BrowserApi.runtime.getURL('/ui/overlay.html'))
     .then(response => response.text())
     .then(data => {
-        console.log('fetched overlay ui');
-        loadedApps = [];
+        document.documentElement.setAttribute('quartyn-tools', '');
+        loadedApps = []; // Reset loaded apps
         if (mode == "part") {
-            let overlay = document.querySelector('.q-overlay');
+            const overlay = document.querySelector('.q-overlay');
             let fullHTML = document.createElement('div');
             fullHTML.innerHTML = data;
             let partHTML = fullHTML.querySelector('.q-overlay').innerHTML;
             overlay.innerHTML = partHTML;
-        } else {
-            var overlay = document.createElement('div');
-            overlay.setAttribute('author', 'Quartyn');
-            // let shadow = overlay.attachShadow({ 'mode': "closed"});
-            // shadow.innerHTML = data;
-            overlay.innerHTML = data;
-            document.body.appendChild(overlay);
+            return true;
         }
 
+        const overlay = document.createElement('div');
+        overlay.setAttribute('author', 'Quartyn');
+        overlay.setAttribute('app', 'QuartTools');
+        overlay.innerHTML = data;
+        document.body.appendChild(overlay);
+
+        return true;
+    }).then(() => {
         translateAll();
         userLogin();
         setNavigation();
@@ -185,7 +178,8 @@ async function importOverlay(mode = "full") {
         document.querySelectorAll('[qua-image\\:id]').forEach(element => {
             element.src = BrowserApi.runtime.getURL(`/images/icons/${element.getAttribute('qua-image:id')}`);
         });
-    }).catch(err => {
+    })
+    .catch(err => {
         console.log(err);
         quartyn.error(err);
     });
@@ -299,7 +293,7 @@ function userLogin() {
 }
 
 // #region Auth
-function loginAsGuest() {
+function continueWithoutAccount() {
     requestSave({
         account: {
             isLogged: true,
@@ -308,7 +302,9 @@ function loginAsGuest() {
             name: "Guest"
         }
     });
-    importOverlay('part');
+    setTimeout(() => {
+        importOverlay('part');
+    }, 100);
 }
 async function setupLoginScreen() {
     let response = await fetch(BrowserApi.runtime.getURL('/ui/login.html'));
@@ -323,7 +319,7 @@ async function setupLoginScreen() {
     let authLogin = setupScreen.overlaySelect('auth.login-container');
     setupScreen.overlaySelect('auth.toLogin').addEventListener('click', function() { authBody.removeAttribute('authpage'); })
     setupScreen.overlaySelect('auth.toRegister').addEventListener('click', function() { authBody.setAttribute('authpage', 'register'); })
-    setupScreen.overlaySelect('auth.loginAsGuest')?.addEventListener('click', loginAsGuest);
+    setupScreen.overlaySelect('auth.loginAsGuest')?.addEventListener('click', continueWithoutAccount);
 
     // Auth Config
     let config = {
