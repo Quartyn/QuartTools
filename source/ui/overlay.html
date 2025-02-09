@@ -309,8 +309,8 @@
                             <textarea required name="qua-overlay@feedback_message" name="qua-fb-message" rows="2" id="qua-fb-message" type="text" maxlength="400" placeholder="Write something I can improve.."></textarea>
                         </div>
                         <div class="qua-feedback-category qua-feedback-controls">
-                           <button type="button" class="qua-overlay-button-secondary" qua-overlay-translate="feedback.clear_button" qua-overlay-action="feedback.clear_button">Clear form</button>
-                           <button type="submit" name="submit" class="qua-feedback-send qua-overlay-button" qua-overlay-translate="feedback.submit_button">Submit feedback</button>
+                            <button type="button" class="qua-overlay-button-secondary" qua-overlay-translate="feedback.clear_button" qua-overlay-action="feedback.clear_button">Clear form</button>
+                            <button type="submit" name="submit" class="qua-feedback-send qua-overlay-button" qua-overlay-translate="feedback.submit_button">Submit feedback</button>
                         </div> 
                     </form>
                 </div>
@@ -511,6 +511,25 @@
                                 <input type="radio" name="layout.navigation_type" value="modern">
                                 <p qua-overlay-translate="navigation.modern">Modern</p>
                             </label>
+                        </div>
+                    </div>
+                    <div class="qua-overlay-settings-category">
+                        <p class="qua-overlay-settings-category__title" qua-overlay-translate="settings.notifications">Notifications</p>
+                        <div class="qua-overlay-settings-category__list">
+                            <div class="qua-overlay__settings-option" qua-overlay-option="update_notifications">
+                                <div class="qua-overlay-settings-option-switch">
+                                    <div class="qua-overlay-settings-option-switch__details">
+                                        <label for="overlay-settings.notifications.update-notifications" class="qua-overlay-settings-option-switch__title" qua-overlay-translate="settings.notifications.update_released">Update released</label>
+                                        <p class="qua-overlay-settings-option-switch__description" qua-overlay-translate="settings.notifications.update_released.description">While enabled, You will receive notifications about new updates.</p>
+                                    </div>
+                                    <label class="qua-overlay-switch" tabindex="0" role="button" aria-label="Enable on-screen notifications for updates.">
+                                        <input class="qua-overlay-switch_input" type="checkbox" id="overlay-settings.notifications.update_notifications">
+                                        <span class="qua-overlay-switch_slider">
+                                            <span class="qua-overlay-switch_dot"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="qua-overlay-settings-category">

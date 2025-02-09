@@ -67,6 +67,9 @@
         "options.themes.hide_tags": "Hide Tags",
         "options.themes.hide_tags.message": "All Tags like `New, Beta, Update` will be hidden.",
         "settings.coming-soon": "More settings are coming soon.",
+        "settings.notifications": "Notifications",
+        "settings.notifications.update_released": "Update released",
+        "settings.notifications.update_released.description": "You will receive notifications about new updates.",
 
         "authentication.welcome_title": "Welcome to ${appName}.",
         "authentication.welcome_description": "Login or register to gain access to services.",
@@ -141,6 +144,9 @@
         "options.themes.hide_tags": "Schovať značky (tagy)",
         "options.themes.hide_tags.message": "Všetky značky ako `New, Beta, Update` budú skryté.",
         "settings.coming-soon": "Viac možností už čoskoro.",
+        "settings.notifications": "Upozornenia",
+        "settings.notifications.update_released": "Vydaná aktualizácia",
+        "settings.notifications.update_released.description": "Budeš dostávať upozornenia o nových aktualizáciach.",
 
         "authentication.welcome_title": "Vitaj.",
         "authentication.welcome_description": "Ak chceš získať prístup k službám, prihlás sa alebo sa zaregistruj.",

@@ -1519,31 +1519,38 @@ function openOverlay(tab) {
 
 // #region Version
 function checkVersion() {
-    let version = '2.0.3.betas';
+    const version = "2.7.9";
+    const title = "New theme system has been released!";
+    const message = "Hi there, new system for themes has been released. Faster & easier to use. Enjoy <3";
 
-    let currentVersion = settings.account.version;
-    console.log(currentVersion);
-    if (currentVersion === version) return;
+    let currentVersion = settings?.app?.version;
+    if (currentVersion === version) return false;
     if (currentVersion == null || currentVersion == undefined) {
         return requestSave({
-            account: {
+            app: {
                 version: version
             }
         });
     }
 
-    updateScreen(version);
-}
+    if (!settings?.overlaySettings?.update_notifications) {
+        // Update the version even while notifications aren't enabled.
+        requestSave({
+            app: {
+                version: version
+            }
+        });
+        return false;
+    };
 
-function updateScreen(version) {
     let updateNotification = new ScreenNotification({
-        title: 'New theme system has been released!',
-        description: `Hi there, new system for themes has been released. Faster & easier to use. Enjoy <3`,
+        title: title,
+        description: message,
         main: {
             text: "I understand.",
             action: function() {
                 requestSave({
-                    account: {
+                    app: {
                         version: version
                     }
                 });
