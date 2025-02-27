@@ -33,7 +33,7 @@
         "feedback.submit_button": "Submit feedback",
 
         "settings.page_title": "Settings",
-        "settings.reset-options": "Reset all settings",
+        "settings.reset-options": "Reset app settings",
 
         "settings.language.title": "Language",
         "settings.language.contribute": "",
@@ -71,15 +71,14 @@
         "settings.notifications.update_released": "Update released",
         "settings.notifications.update_released.description": "You will receive notifications about new updates.",
 
-        "authentication.welcome_title": "Welcome to ${appName}.",
-        "authentication.welcome_description": "Login or register to gain access to services.",
-        "authentication.login.username_or_email": "Username or email",
-        "authentication.login.password": "Password",
-        "authentication.login.recommended_text": "I recommend logging in on web {{website}}, so when you log in, you can save your credentials.",
-        "authentication.login_button": "Log In",
-        "authentication.register_button": "Register",
-        "authentication.lost_password_button": "I lost my password",
-        "authentication.login_with_account": "Login with existing account"
+        "auth.welcome_title": "Welcome to",
+        "auth.welcome_description": "You can enjoy most of the functionality even without the account. However, logging to your account unlocks you features as Theme Requests, priority on your feedback, and more coming soon!",
+        "auth.login.username_or_email": "Username or email",
+        "auth.login.password": "Password",
+        "auth.login.recommended_text": "I recommend logging in on web {{website}}, so when you log in, you can save your credentials.",
+        "auth.login_button": "Log In",
+        "auth.register_button": "Register",
+        "auth.lost_password_button": "Lost password?"
     },
     "sk": {
         "language.name": "Slovenčina",
@@ -110,7 +109,7 @@
         "feedback.submit_button": "Odoslať spätnú väzbu",
 
         "settings.page_title": "Nastavenia",
-        "settings.reset-options": "Obnoviť všetky nastavenia",
+        "settings.reset-options": "Obnoviť nastavenia aplikácie",
 
         "settings.language.title": "Jazyk",
         "settings.language.contribute": "",
@@ -148,14 +147,13 @@
         "settings.notifications.update_released": "Vydaná aktualizácia",
         "settings.notifications.update_released.description": "Budeš dostávať upozornenia o nových aktualizáciach.",
 
-        "authentication.welcome_title": "Vitaj.",
-        "authentication.welcome_description": "Ak chceš získať prístup k službám, prihlás sa alebo sa zaregistruj.",
-        "authentication.login.username_or_email": "Používateľské meno alebo email",
-        "authentication.login.password": "Heslo",
-        "authentication.login.recommended_text": "Odporúčam sa prihlasovať na webe {{website}}, takže keď sa prihlásiš, budeš môcť uložiť svoje prihlasovacie údaje.",
-        "authentication.login_button": "Prihlásiť sa",
-        "authentication.register_button": "Zaregistrovať sa",
-        "authentication.lost_password_button": "Zabudol/a som svoje heslo",
-        "authentication.login_with_account": "Prihlásiť sa s existujúcim účtom"
+        "auth.welcome_title": "Vitaj v",
+        "auth.welcome_description": "Väčšinu funkčnosti si dokážeš užiť aj bez účtu. Avšak, prihlásenim sa získaš možnosť Požiadať o Témy, väčšiu prioritu pri spätnej väzbe a návrhoch, a už čoskoro omnoho viac!",
+        "auth.login.username_or_email": "Používateľské meno alebo email",
+        "auth.login.password": "Heslo",
+        "auth.login.recommended_text": "Odporúčam sa prihlasovať na webe {{website}}, takže keď sa prihlásiš, budeš môcť uložiť svoje prihlasovacie údaje.",
+        "auth.login_button": "Prihlásiť sa",
+        "auth.register_button": "Zaregistrovať sa",
+        "auth.lost_password_button": "Zabudnuté heslo?"
     }
 }
