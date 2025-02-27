@@ -257,6 +257,25 @@
   /* #region Loading Screen */
 
     /* #region Loading Bar */
+    .qua-overlay_loading-bar {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      height: 5px;
+      width: 50%;
+      background-color: rgb(var(--qua-overlay-theme-rgb) / .35);
+      z-index: 7;
+      border-radius: 999px;
+    }
+    .qua-overlay_loading-status {
+      display: block;
+      width: 0px;
+      height: 100%;
+      background-color: var(--qua-overlay-theme);
+      box-shadow: 0 0 19px 1px var(--qua-overlay-theme);
+      border-radius: 999px;
+      transition: .2s;
+    }
     .qua-loading-bar {
       display: flex;
       position: absolute;
@@ -1385,15 +1404,7 @@ p.qsmall-msg {
 /* #endregion */
 
 /* #region Authentication Page */
-.qua-overlay-auth_or-options {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 .qua-overlay_auth-screen {
-  padding-top: 70px !important;
-}
-.qua-authentication-page {
   margin: 0;
   background-color: var(--qua-overlay-background);
   display: flex;
@@ -1402,28 +1413,14 @@ p.qsmall-msg {
   position: relative;
   width: 100%;
   padding: 20px;
+  height: 100%;
   max-height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+  --max-auth-width: 550px;
 }
-/* .qua-authentication-page .qua-authentication-title {
-  margin-top: auto;
-} */
-.qua-authentication-page :last-child {
-  margin-bottom: auto;
-}
-.qua-authentication-page::-webkit-scrollbar {
+.qua-overlay_auth-screen::-webkit-scrollbar {
   width: 0;
-}
-.qua-authentication-page #qua-overlay__language {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 2;
-  min-width: 100px;
-  max-width: 300px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .qua-overlay_auth-screen_title {
   margin: 0;
@@ -1433,13 +1430,15 @@ p.qsmall-msg {
   font-family: var(--qua-overlay-text-family);
   text-align: center;
 }
-.qua-overlay_auth-screen_title > span {
+.qua-overlay_auth-screen_title > span:last-child {
   color: var(--qua-overlay-theme) !important;
 }
-.qua-overlay_auth-screen_desc {
+.qua-overlay_auth-screen_description {
   margin: 0 !important;
   margin-top: 10px !important;
   padding: 0 !important;
+  width: var(--max-auth-width, 550px);
+  max-width: 100%;
   color: var(--qua-overlay-text-color-secondary) !important;
   font-size: 16.5px !important;
   font-family: var(--qua-overlay-font-family) !important;
@@ -1510,19 +1509,9 @@ p.qsmall-msg {
     transform: rotate(360deg);
   }
 }
-.qua-authentication-button-secondary {
-  background-color: transparent;
-  color: var(--qua-overlay-text-color-secondary);
-  border: 1px solid var(--qua-overlay-border-color);
-}
-.qua-overlay-text-highlight {
-  color: var(--qua-overlay-theme) !important;
-}
-.qua-authentication-bold {
-  font-weight: 600;
-}
 .qua-authentication-splitter {
-  width: 100%;
+  width: 20%;
+  margin-inline: auto;
   height: 1px;
   background-color: var(--qua-overlay-border-color);
 }
@@ -1622,104 +1611,26 @@ p.qsmall-msg {
   font-size: inherit !important;
   font-family: inherit !important;
 }
-/* .qua-auth-main {
-  margin-top: auto;
+.qua-overlay_auth-screen_link {
+  color: var(--qua-overlay-theme) !important;
+  cursor: pointer !important;
 }
-.qua-auth-second {
-  color: #4072ff;
-  background-color: transparent;
-  border: 1px solid #4072ff;
-} */
-.qua-authentication-body {
+.qua-overlay_auth-screen_link:hover {
+  text-decoration: underline !important;
+}
+.qua-overlay_auth-wrapper {
   margin: 0 !important;
   margin-top: 30px !important;
   padding: 0 !important;
   display: flex !important;
   flex-direction: column !important;
-  width: 550px;
+  width: var(--max-auth-width, 550px);
   max-width: 100%;
   min-height: 200px;
   position: relative;
   transition: .4s;
 }
-.qua-authentication-body[auth-status="welcome"] {
-  width: fit-content !important;
-}
-
-.qua-authentication-body[auth-status="welcome"] .qua-authentication-register-title {
-  padding-block: 30px;
-}
-.qua-authentication-body.register-auth {
-  height: 250px;
-}
-
-[qua-overlay-action="auth.register-container"] {
-  opacity: 0;
-  position: absolute;
-  transform: translateY(30px);
-  pointer-events: none;
-  z-index: -2;
-}
-.qua-authentication-body[authpage="register"] [qua-overlay-action="auth.login-container"] {
-  opacity: 0;
-  position: absolute;
-  transform: translateY(30px);
-  pointer-events: none;
-  z-index: -2;
-}
-.qua-authentication-body[authpage="register"] [qua-overlay-action="auth.login-container"] {
-  animation-name: hideForm;
-  animation-duration: 1s;
-  animation-fill-mode: forwards;
-}
-.qua-authentication-body[authpage="register"] [qua-overlay-action="auth.register-container"] {
-  animation-name: showForm;
-  animation-duration: 1s;
-  animation-fill-mode: forwards;
-}
-.qua-authentication-body:not([authpage]) [qua-overlay-action="auth.register-container"] {
-  animation-name: hideForm;
-  animation-duration: 1s;
-  animation-fill-mode: forwards;
-}
-.qua-authentication-body:not([authpage]) [qua-overlay-action="auth.login-container"] {
-  animation-name: showForm;
-  animation-duration: 1s;
-  animation-fill-mode: forwards;
-}
-@keyframes hideForm {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: all;
-    z-index: 1;
-    position: relative;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(50px);
-    pointer-events: none;
-    z-index: -2;
-    position: absolute;
-  }
-}
-@keyframes showForm {
-  0% {
-    opacity: 0;
-    transform: translateY(50px);
-    pointer-events: none;
-    z-index: -2;
-    position: absolute;
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: all;
-    z-index: 1;
-    position: relative;
-  }
-}
-.qua-authentication-container {
+.qua-overlay_auth-container {
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -1727,46 +1638,11 @@ p.qsmall-msg {
   align-items: unsafe;
   transition: .5s;
 }
-
-
-.qua-overlay-link {
-  margin: 0 !important;
-  padding: 0 !important;
-  font-size: inherit !important;
-  color: var(--qua-overlay-theme) !important;
-  font-family: var(--qua-overlay-text-family) !important;
-  text-decoration: underline;
-  text-underline-offset: 5px;
-  cursor: pointer;
+.qua-overlay_auth-container[hidden] {
+  display: none;
+  pointer-events: none;
+  opacity: 0;
 }
-
-.qua-authentication-another {
-  margin: 0;
-  padding: 0;
-  margin-top: 20px;
-  display: block;
-  width: 100%;
-  font-size: 17px;
-  color: var(--qua-overlay-text-color);
-  font-family: var(--qua-overlay-text-family);
-  text-decoration: none;
-  text-align: center;
-  border: 0;
-  cursor: pointer;
-}
-
-/* .qua-authentication-register-input-container[authstatus="incorrect"] .qua-authentication-register-input {
-  border: 1px solid #ff4f4f;
-  box-shadow: 0 0 5px #ff4f4f;
-  background-color: #ff4f4f26;
-}
-.qua-authentication-register-input-container[authstatus="incorrect"]::after {
-  content: attr(authmessage);
-  color: #ff4f4f;
-  display: block;
-  padding: 5px;
-  text-shadow: 0 0 5px;
-} */
 /* #endregion */
 
 /* #region Profile Tab / Account tab */
@@ -5098,6 +4974,7 @@ qseparator[qtag="music-sep"]::before {
   aspect-ratio: 1 / 1;
   display: flex;
   height: 150px;
+  border: 1px solid var(--qua-overlay-border-color);
 }
 .qua-overlay__welcome-screen--title {
   margin: 0 !important;
