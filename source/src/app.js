@@ -131,8 +131,6 @@ initializeApp();
 function initializeApp() {
     if (!settings) return setTimeout(initializeApp, 10);
     importOverlay();
-
-    // if (!settings?.account?.isLogged) return;
     checkVersion();
 }
 
@@ -928,7 +926,6 @@ function initAccount() {
             console.error(err);
         });
         requestSave({ account: null });
-        quartyn.success('You have been logged out');
     });
     let resetButton = document.querySelector('[qua-action="qua\\:overlay\\://reset"]');
     // resetButton?.addEventListener('click', resetSender);
@@ -1441,7 +1438,7 @@ function welcomeScreen(userData = {
         <p class="qua-overlay__welcome-screen--name">Loading..</p>
         <p class="qua-overlay__welcome-screen--username">@Loading..</p>
         <button class="qua-overlay__welcome-screen--button qua-overlay-button">Continue to the app! 🙃</button>
-        <div class="qua-overlay_loading-bar">
+        <div class="qua-overlay_loading-bar qua-overlay_auth-loading">
             <div class="qua-overlay_loading-status"></div>
         </div>
     </div>
@@ -1508,32 +1505,38 @@ function resetListener() {
 }
 
 function logoutUser() {
-    let overlay = document.querySelector('.qua-overlay');
+    const auth_screen = document.querySelector('[qua-overlay-page="account"]');
+    settings.account = null; // Delete loaded variables
     
     quartyn.success('You have been logged out successfully.');
-    
-    if (!overlay) return new overlayNotification({
-        title: "You have been logged out",
-        message: "You have been successfully logged out. You can log back in to use these tools more.",
-        duration: 4000
-    });
 
-    overlay.querySelector('.q-overlay').innerHTML = `
+    auth_screen.innerHTML = `
     <div class="qua-overlay_logout-screen">
         <div class="qua-overlay_auth-screen_spacer"></div>
         <p class="qua-overlay_logout-screen_title">You have been <span class="qua-overlay_pretty-color">logged out</span>.</p>
-        <p class="qua-overlay_logout-screen_message">You have been logged out from this account. If you want to use QuartTools, please log back in or create a new account.</p>
+        <p class="qua-overlay_logout-screen_message">You have been logged out from this account. If you want to log back in, you can use the button bellow.</p>
         <button class="qua-overlay_logout-screen_btn qua-overlay-button">Go to login screen</button>
+        <div class="qua-overlay_loading-bar qua-overlay_auth-loading">
+            <div class="qua-overlay_loading-status"></div>
+        </div>
         <div class="qua-overlay_auth-screen_spacer"></div>
     </div>`;
-    overlay.querySelector('.qua-overlay_logout-screen .qua-overlay_logout-screen_btn').addEventListener('click', function() {
+    let loading = auth_screen.querySelector('.qua-overlay_loading-status');
+    let bye = setLoading({
+        duration: 5000,
+        bar: loading,
+        then: setupLoginScreen
+    });
+    auth_screen.querySelector('.qua-overlay_logout-screen .qua-overlay_logout-screen_btn').addEventListener('click', function() {
+        bye.remove();
         setupLoginScreen();
     });
     new overlayNotification({
         title: "You have been logged out",
-        message: "You have been successfully logged out. You can log back in to use these tools more.",
-        duration: 40000
+        message: "You have been successfully logged out. You can log back in anytime you want.",
+        duration: 6000
     });
+    setUserData();
 }
 function clearSettings() {
     console.log("Overlay on this page was requested to clear user's settings. Accepting..")
