@@ -113,6 +113,10 @@ let overlay_theme_customization = {};
 // FUNCTION - Message Centre
 BrowserApi.runtime.onMessage.addListener(
     function(message, sender, sendResponse) {
+        if (message.id == 'loginUser') {
+            settings.account = message.user;
+            return welcomeScreen(message.user);
+        }
         if (message.id == 'logoutUser') return logoutUser();
         if (message.id == 'clearSettings') return clearSettings();
 
@@ -131,8 +135,6 @@ initializeApp();
 function initializeApp() {
     if (!settings) return setTimeout(initializeApp, 10);
     importOverlay();
-
-    // if (!settings?.account?.isLogged) return;
     checkVersion();
 }
 
@@ -163,16 +165,12 @@ function importOverlay(mode = "full") {
         return true;
     }).then(() => {
         translateAll();
-        userLogin();
         setNavigation();
 
-        if (settings.account.isLogged) {
-            setUserData();
-            initAccount();
-            // themeColorsInit();
-            updateOverlaySettings();
-            runApplication('services');
-        }
+        runApplication('services');
+        updateOverlaySettings();
+
+        setUserData();
 
         // Image manager
         document.querySelectorAll('[qua-image\\:id]').forEach(element => {
@@ -245,10 +243,7 @@ function importOverlay(mode = "full") {
     //                 }, 1000);
     //             }
     //         }
-            
-    //         if (settings.account.isLogged) {
     //             doaction();
-    //         }
     //     }
     // }
     // var qloadingcheck = setInterval(function () {
@@ -263,63 +258,56 @@ function importOverlay(mode = "full") {
     // #endregion
 }
 
-function userLogin() {
-    document.querySelector('.q-overlay').removeAttribute('q');
-    if (!settings.account.isLogged) {
-        let overlayBody = document.querySelectorAll('.q-overlay *');
-        overlayBody.forEach(a => a.remove());
+function setLoading({
+    duration = 5000,
+    _interval = 100,
+    bar = "",
+    then = () => {}
+} = {}) {
+    if (!bar) return false;
+    
+    const steps = duration / _interval;
+    const increment = 100 / steps;
+    let width = 0;
+    let id = setInterval(function() {
+        if (width >= 100) {
+            clearInterval(id);
+            then();
+            return true;
+        }
+        width += increment;
+        bar.style.width = width + "%";
+    }, _interval);
 
-        setupLoginScreen();
-        
-        let notification = new ScreenNotification({
-            title: "Exciting Update: QuartTools Rebuilt!",
-            description: `Hey there! 🎉 QuartTools just got a fresh makeover, and with it came some exciting changes! We had to tidy up our storage to make room for all the awesome new features. Don't worry, it's all for the better! 😄
-
-            Please take a moment to log in again and explore the snazzy new version. You'll love what we've done! Happy tooling! 🛠️💫.`,
-            main: {
-                text: "Login & Discover",
-                action: function() {
-                    notification.close();
-                    openOverlay();
-                }
-            }
-        });
-        notification.send();
-        return;
-    }
-    if (!settings.account.hideTutorial) {
-        // showTutorial();
+    return {
+        remove: function() {
+            clearInterval(id);
+        }
     }
 }
 
 // #region Auth
-function continueWithoutAccount() {
-    requestSave({
-        account: {
-            isLogged: true,
-            id: "anonymous",
-            username: "Guest",
-            name: "Guest"
-        }
-    });
-    setTimeout(() => {
-        importOverlay('part');
-    }, 100);
-}
 async function setupLoginScreen() {
     let response = await fetch(BrowserApi.runtime.getURL('/ui/login.html'));
-    document.querySelector('.q-overlay').innerHTML = await response.text();
-    let setupScreen = document.querySelector('.q-overlay .qua-authentication-page');
+    document.querySelector('[qua-overlay-page="account"]').innerHTML = await response.text();
+    let setupScreen = document.querySelector('.q-overlay .qua-overlay_auth-screen');
 
-    setLanguageSelector(setupScreen.querySelector('#qua-overlay__language'));
     updateOverlaySettings();
     
-    let authBody = setupScreen.querySelector('.qua-authentication-body');
     let authRegister = setupScreen.overlaySelect('auth.register-container');
     let authLogin = setupScreen.overlaySelect('auth.login-container');
-    setupScreen.overlaySelect('auth.toLogin').addEventListener('click', function() { authBody.removeAttribute('authpage'); })
-    setupScreen.overlaySelect('auth.toRegister').addEventListener('click', function() { authBody.setAttribute('authpage', 'register'); })
-    setupScreen.overlaySelect('auth.loginAsGuest')?.addEventListener('click', continueWithoutAccount);
+    setupScreen.overlaySelect('auth.toLogin').addEventListener('click', function() {
+        authRegister.setAttribute('hidden', '');
+        authRegister.setAttribute('aria-hidden', 'true');
+        authLogin.removeAttribute('hidden', '');
+        authLogin.removeAttribute('aria-hidden');
+    });
+    setupScreen.overlaySelect('auth.toRegister').addEventListener('click', function() {
+        authLogin.setAttribute('hidden', '');
+        authLogin.setAttribute('aria-hidden', 'true');
+        authRegister.removeAttribute('aria-hidden');
+        authRegister.removeAttribute('hidden', '');
+    });
 
     // Auth Config
     let config = {
@@ -360,7 +348,6 @@ async function setupLoginScreen() {
             let user = response.user;
             requestSave({
                 account: {
-                    isLogged: true,
                     id: user.id,
                     name: user.fullname,
                     username: user.username,
@@ -372,31 +359,6 @@ async function setupLoginScreen() {
         }).catch(err => {
 
         });
-
-        // BrowserApi.runtime.sendMessage({id: "createUser", body: new URLSearchParams(new FormData(authRegister)).toString()}, function(response) {
-        //     console.log(response);
-        //     register.submit.classList.remove('qua-overlay__loading');
-        //     if (response.status !== 200) {
-        //         return new overlayNotification({
-        //             title: "Unable to create an account",
-        //             message: response.message,
-        //             duration: 6000
-        //         });
-        //     }
-
-        //     let user = response.user;
-        //     requestSave({
-        //         account: {
-        //             isLogged: true,
-        //             id: user.id,
-        //             name: user.fullname,
-        //             username: user.username,
-        //             avatar: user.avatar
-        //         }
-        //     });
-
-        //     return welcomeScreen(user);
-        // });
     });
     register.username.addEventListener('input', function(e) {
         let usernameValue = this.value;
@@ -483,13 +445,14 @@ async function setupLoginScreen() {
 
             requestSave({
                 account: {
-                    isLogged: true,
                     id: user.id,
-                    name: user.fullname,
+                    name: user.name,
                     username: user.username,
-                    avatar: user.avatar
+                    avatar: user.avatar,
+                    token: user.token
                 }
             });
+            settings.account = user;
 
             return welcomeScreen(user);
         }).catch(err => {
@@ -502,7 +465,6 @@ async function setupLoginScreen() {
     });
     // #endregion of Auth Login
 
-    document.querySelector('.q-overlay').appendChild(setupScreen);
     translateAll();
 }
 // #endregion Auth
@@ -657,17 +619,45 @@ function showTutorial() {
 
 // Function -- done --
 function setUserData() {
+    const navigationLink = document.querySelector('[qlinkid="account"]');
+    
+    // User not logged in
+    if (!settings?.account?.id) {
+        navigationLink.innerHTML = `
+            <svg qua-source:google-material-icons xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Z"/></svg>
+            <qua-label class="qua-navigation-link-title" qua-overlay-translate="auth.login_button">Log In</qua-label>
+        `;
+        navigationLink.ariaLabel = 'Log In';
+        navigationLink.setAttribute('aria-label', 'Log In');
+        navigationLink.className = 'qua-navigation-link';
+        return true;
+    }
+    // When is logged in
+    const useIcon = true;
+    navigationLink.innerHTML = `
+        ${useIcon ? `
+            <img class="qua-overlay_user-link_profile-picture" src="" alt="User's profile picture" qua-overlay-action="account://profile-picture">
+        ` : `
+        <svg qua-source:google-material-icons xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Z"/></svg>
+        `}
+        <qua-label class="qua-navigation-link-title" qua-overlay-action="user.fullname"></qua-label>
+    `;
+    navigationLink.ariaLabel = "My account";
+    navigationLink.setAttribute('aria-label', 'My account');
+    navigationLink.classList.add('qua-overlay_user-link');
     let fullName = overlaySelectAll('user.fullname');
     let userName = overlaySelectAll('user.username');
+    const profilePicture = overlaySelect('account://profile-picture');
     fullName.forEach(element => {
-        element.textContent = settings.account.name;
+        element.textContent = settings?.account?.name;
     });
     userName.forEach(element => {
-        element.textContent = `@${settings.account.username}`;
-        if (settings.account.id == "anonymous") {
-            element.textContent = `#NotLoggedIn`;
-        }
+        element.textContent = "@" + settings.account.username;
     });
+    profilePicture.addEventListener('error', function() {
+        profilePicture.src = createAvatarLetter(settings?.account?.name ?? "i", .55);
+    });
+    return true;
 }
 function ColorToHex(color) {
     var hexadecimal = color.toString(16);
@@ -708,15 +698,19 @@ function setNavigation() {
     let overlay_closers = overlaySelectAll('overlay.close');
     let navigation_tabs = overlaySelectAll('navigation-tab');
     navigation_tabs?.forEach(tab => {
-        tab.addEventListener('click', function() {
-            openPage(tab.getAttribute('qlinkid'));
-        });
+        setNavigationLink(tab);
     });
     overlay_closers?.forEach(closer => {
         closer.addEventListener('click', function() {
             document.querySelector('.qua-overlay').classList.remove('qactive');
             document.documentElement.removeAttribute('qua-overlay');
         });
+    });
+}
+
+function setNavigationLink(element) {
+    element.addEventListener('click', function() {
+        openPage(element.getAttribute('qlinkid'));
     });
 }
 
@@ -730,9 +724,8 @@ function runApplication(app) {
     if (app == 'themes') {
         return initThemes();
     }
-    if (app == 'account') {
-        return initAccount();
-    }
+    if (app == 'account') return initAccount();
+    
     if (app == 'settings') {
         return initSettings();
     }
@@ -876,6 +869,11 @@ function initServices() {
     }
 }
 function initAccount() {
+    if (!settings?.account?.id) {
+        setupLoginScreen();
+        return true;
+    }
+    // When user is logged in
     let logoutButton = document.querySelector('[qua-action="qua\\:overlay\\://logout"]');
     logoutButton?.addEventListener('click', function() {
         BrowserApi.runtime.sendMessage({ id: "logoutUser" })
@@ -885,7 +883,6 @@ function initAccount() {
             console.error(err);
         });
         requestSave({ account: null });
-        quartyn.success('You have been logged out');
     });
     let resetButton = document.querySelector('[qua-action="qua\\:overlay\\://reset"]');
     // resetButton?.addEventListener('click', resetSender);
@@ -899,6 +896,7 @@ function initAccount() {
         })
         clearStorage();
     });
+    return true;
 }
 function initThemes() {
     let closers = overlaySelectAll('theme-manager.close');
@@ -1382,35 +1380,72 @@ function initMusic() {
     });   
 }
 
-function welcomeScreen(data) {
-    let overlay = document.querySelector('.q-overlay');
+function welcomeScreen(userData = {
+    id: 0,
+    name: "",
+    username: "",
+    avatar: ""
+}) {
+    // Skip "fancy" loadings and animations if tab is not active.
+    const isTabInactive = document.hidden;
+    if (isTabInactive) {
+        setUserData();
+        loadAccountPage();
+        return true;
+    }
+    let auth_screen = document.querySelector('.qua-overlay_auth-screen');
 
-    overlay.innerHTML = `
+    auth_screen.innerHTML = `
     <div class="qua-overlay_welcome-screen qua-overlay__welcome-screen">
         <img class="qua-overlay__welcome-screen--image">
         <p class="qua-overlay__welcome-screen--title">Welcome back</p>
         <p class="qua-overlay__welcome-screen--name">Loading..</p>
         <p class="qua-overlay__welcome-screen--username">@Loading..</p>
         <button class="qua-overlay__welcome-screen--button qua-overlay-button">Continue to the app! 🙃</button>
+        <div class="qua-overlay_loading-bar qua-overlay_auth-loading">
+            <div class="qua-overlay_loading-status"></div>
+        </div>
     </div>
     `;
-    overlay.querySelector('.qua-overlay__welcome-screen--name').textContent = data.fullname;
-    overlay.querySelector('.qua-overlay__welcome-screen--username').textContent = `@${data.username}`;
+    auth_screen.querySelector('.qua-overlay__welcome-screen--name').textContent = userData.name;
+    auth_screen.querySelector('.qua-overlay__welcome-screen--username').textContent = `@${userData.username}`;
 
-    let letterAvatar = createAvatarLetter(data.fullname);
-    overlay.querySelector('.qua-overlay__welcome-screen--image').src = letterAvatar;
+    let letterAvatar = createAvatarLetter(userData.name ?? userData.username);
+    auth_screen.querySelector('.qua-overlay__welcome-screen--image').src = letterAvatar;
     
-    BrowserApi.runtime.sendMessage({id: "getImage", link: data.avatar}, function(response) {
-        if (response.status !== 200) {
-            return new OverlayNotification({
-                title: response.message
-            }).send();
-        }
+    if (userData.avatar) {
+        BrowserApi.runtime.sendMessage({id: "getImage", link: userData.avatar}, function(response) {
+            if (response?.status !== 200) {
+                return new OverlayNotification({
+                    title: response?.message
+                }).send();
+            }
+    
+            auth_screen.querySelector('.qua-overlay__welcome-screen--image').src = response.uri;
+        })
+    }
+    let hi = setLoading({
+        duration: 5000,
+        bar: auth_screen.querySelector('.qua-overlay_loading-status'),
+        then: loadAccountPage
+    });
+    auth_screen.querySelector('.qua-overlay-button').addEventListener('click', function() {
+        hi.remove();
+        loadAccountPage();
+    });
+    setUserData();
+}
+function loadAccountPage() {
+    fetch(BrowserApi.runtime.getURL('/ui/overlay.html'))
+    .then(html => html.text())
+    .then(html => {
+        const temp = document.createElement('div');
+        temp.innerHTML = html;
+        const accountPage = temp.querySelector('[qua-overlay-page="account"]');
 
-        overlay.querySelector('.qua-overlay__welcome-screen--image').src = response.uri;
-    })
-    return overlay.querySelector('.qua-overlay__welcome-screen--button').addEventListener('click', function() {
-        return importOverlay("part");
+        document.querySelector('[qua-overlay-page="account"]').innerHTML = accountPage.innerHTML;
+        setUserData();
+        initAccount();
     });
 }
 function authenticationListener(message = "welcome") {
@@ -1434,45 +1469,56 @@ function resetListener() {
 }
 
 function logoutUser() {
-    let overlay = document.querySelector('.qua-overlay');
+    const auth_screen = document.querySelector('[qua-overlay-page="account"]');
+    settings.account = null; // Delete loaded variables
     
-    quartyn.success('You have been logged out successfully.');
-    
-    if (!overlay) return new overlayNotification({
-        title: "You have been logged out",
-        message: "You have been successfully logged out. You can log back in to use these tools more.",
-        duration: 4000
-    });
+    quartyn.success('You have been logged out.', 'auth');
+    if (document.hidden) {
+        setUserData();
+        setupLoginScreen();
+        return true;
+    }
 
-    overlay.querySelector('.q-overlay').innerHTML = `
+    auth_screen.innerHTML = `
     <div class="qua-overlay_logout-screen">
         <div class="qua-overlay_auth-screen_spacer"></div>
         <p class="qua-overlay_logout-screen_title">You have been <span class="qua-overlay_pretty-color">logged out</span>.</p>
-        <p class="qua-overlay_logout-screen_message">You have been logged out from this account. If you want to use QuartTools, please log back in or create a new account.</p>
+        <p class="qua-overlay_logout-screen_message">You have been logged out from this account. If you want to log back in, you can use the button bellow.</p>
         <button class="qua-overlay_logout-screen_btn qua-overlay-button">Go to login screen</button>
+        <div class="qua-overlay_loading-bar qua-overlay_auth-loading">
+            <div class="qua-overlay_loading-status"></div>
+        </div>
         <div class="qua-overlay_auth-screen_spacer"></div>
     </div>`;
-    overlay.querySelector('.qua-overlay_logout-screen .qua-overlay_logout-screen_btn').addEventListener('click', function() {
+    let loading = auth_screen.querySelector('.qua-overlay_loading-status');
+    let bye = setLoading({
+        duration: 5000,
+        bar: loading,
+        then: setupLoginScreen
+    });
+    auth_screen.querySelector('.qua-overlay_logout-screen .qua-overlay_logout-screen_btn').addEventListener('click', function() {
+        bye.remove();
         setupLoginScreen();
     });
     new overlayNotification({
         title: "You have been logged out",
-        message: "You have been successfully logged out. You can log back in to use these tools more.",
-        duration: 40000
+        message: "You have been successfully logged out. You can log back in anytime you want.",
+        duration: 6000
     });
+    setUserData();
 }
 function clearSettings() {
     console.log("Overlay on this page was requested to clear user's settings. Accepting..")
 }
 
 // #region Avatar Handler
-function createAvatarLetter(name) {
+function createAvatarLetter(name, _font_size = 0.45) {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
-    const size = 100; // Set the size of the canvas and the resulting image
-    const backgroundColor = 'rgba(255, 255, 255, .03)'; // Set the background color for the letter
-    const textColor = 'var(--qua-overlay-text-color-secondary)'; // Set the text color (white in this case)
-    const fontSize = size * 0.45; // Set the font size relative to the canvas size
+    const size = 100; // Size of the canvas and the resulting image
+    const backgroundColor = 'rgba(255, 255, 255, .03)'; // The background color for the letter
+    const textColor = getComputedStyle(document.documentElement).getPropertyValue('--qua-overlay-theme').trim(); // Text color of the letter (Get color of selected theme)
+    const fontSize = size * _font_size; // Set the font size relative to the canvas size
   
     canvas.width = size;
     canvas.height = size;
@@ -1494,7 +1540,6 @@ function createAvatarLetter(name) {
 function qs(selector) {
     return document.querySelector(selector);
 }
-
 function openOverlay(tab) {
     let overlay = document.querySelector('.qua-overlay');
     if (!overlay) return;
@@ -1518,11 +1563,11 @@ function checkVersion() {
     const title = "New theme system has been released!";
     const message = "Hi there, new system for themes has been released. Faster & easier to use. Enjoy <3";
 
-    let currentVersion = settings?.app?.version;
+    let currentVersion = settings?.client?.version;
     if (currentVersion === version) return false;
     if (currentVersion == null || currentVersion == undefined) {
         return requestSave({
-            app: {
+            client: {
                 version: version
             }
         });
@@ -1531,7 +1576,7 @@ function checkVersion() {
     if (!settings?.overlaySettings?.update_notifications) {
         // Update the version even while notifications aren't enabled.
         requestSave({
-            app: {
+            client: {
                 version: version
             }
         });
@@ -1545,7 +1590,7 @@ function checkVersion() {
             text: "I understand.",
             action: function() {
                 requestSave({
-                    app: {
+                    client: {
                         version: version
                     }
                 });
@@ -1565,7 +1610,7 @@ function checkVersion() {
 
 function clearStorage() {
     return requestSave({
-        account: { isLogged: false },
+        account: {},
         themes: {},
         options: {},
         overlaySettings: {},
