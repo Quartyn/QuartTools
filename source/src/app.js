@@ -113,6 +113,10 @@ let overlay_theme_customization = {};
 // FUNCTION - Message Centre
 BrowserApi.runtime.onMessage.addListener(
     function(message, sender, sendResponse) {
+        if (message.id == 'loginUser') {
+            settings.account = message.user;
+            return welcomeScreen(message.user);
+        }
         if (message.id == 'logoutUser') return logoutUser();
         if (message.id == 'clearSettings') return clearSettings();
 
@@ -239,10 +243,7 @@ function importOverlay(mode = "full") {
     //                 }, 1000);
     //             }
     //         }
-            
-    //         if (settings.account.isLogged) {
     //             doaction();
-    //         }
     //     }
     // }
     // var qloadingcheck = setInterval(function () {
@@ -285,49 +286,7 @@ function setLoading({
     }
 }
 
-function userLogin() {
-    document.querySelector('.q-overlay').removeAttribute('q');
-    if (!settings.account.isLogged) {
-        let overlayBody = document.querySelectorAll('.q-overlay *');
-        overlayBody.forEach(a => a.remove());
-
-        setupLoginScreen();
-        
-        let notification = new ScreenNotification({
-            title: "Exciting Update: QuartTools Rebuilt!",
-            description: `Hey there! 🎉 QuartTools just got a fresh makeover, and with it came some exciting changes! We had to tidy up our storage to make room for all the awesome new features. Don't worry, it's all for the better! 😄
-
-            Please take a moment to log in again and explore the snazzy new version. You'll love what we've done! Happy tooling! 🛠️💫.`,
-            main: {
-                text: "Login & Discover",
-                action: function() {
-                    notification.close();
-                    openOverlay();
-                }
-            }
-        });
-        notification.send();
-        return;
-    }
-    if (!settings.account.hideTutorial) {
-        // showTutorial();
-    }
-}
-
 // #region Auth
-function continueWithoutAccount() {
-    requestSave({
-        account: {
-            isLogged: true,
-            id: "anonymous",
-            username: "Guest",
-            name: "Guest"
-        }
-    });
-    setTimeout(() => {
-        importOverlay('part');
-    }, 100);
-}
 async function setupLoginScreen() {
     let response = await fetch(BrowserApi.runtime.getURL('/ui/login.html'));
     document.querySelector('[qua-overlay-page="account"]').innerHTML = await response.text();
@@ -389,7 +348,6 @@ async function setupLoginScreen() {
             let user = response.user;
             requestSave({
                 account: {
-                    isLogged: true,
                     id: user.id,
                     name: user.fullname,
                     username: user.username,
@@ -487,7 +445,6 @@ async function setupLoginScreen() {
 
             requestSave({
                 account: {
-                    isLogged: true,
                     id: user.id,
                     name: user.name,
                     username: user.username,
@@ -1429,6 +1386,13 @@ function welcomeScreen(userData = {
     username: "",
     avatar: ""
 }) {
+    // Skip "fancy" loadings and animations if tab is not active.
+    const isTabInactive = document.hidden;
+    if (isTabInactive) {
+        setUserData();
+        loadAccountPage();
+        return true;
+    }
     let auth_screen = document.querySelector('.qua-overlay_auth-screen');
 
     auth_screen.innerHTML = `
@@ -1508,7 +1472,12 @@ function logoutUser() {
     const auth_screen = document.querySelector('[qua-overlay-page="account"]');
     settings.account = null; // Delete loaded variables
     
-    quartyn.success('You have been logged out successfully.');
+    quartyn.success('You have been logged out.', 'auth');
+    if (document.hidden) {
+        setUserData();
+        setupLoginScreen();
+        return true;
+    }
 
     auth_screen.innerHTML = `
     <div class="qua-overlay_logout-screen">
@@ -1641,7 +1610,7 @@ function checkVersion() {
 
 function clearStorage() {
     return requestSave({
-        account: { isLogged: false },
+        account: {},
         themes: {},
         options: {},
         overlaySettings: {},
