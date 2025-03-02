@@ -628,9 +628,15 @@ div[author="Quartyn"] {
     font-weight: 400;
     text-align: left;
     color: currentColor;
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    box-orient: vertical;
+    overflow: hidden;
   }
-  .qua-navigation-link[aria-current="true"],
-  .qua-overlay-user[aria-current="true"] {
+  .qua-navigation-link[aria-current="true"] {
     color: var(--qua-overlay-theme) !important;
     background-color: rgb(var(--qua-overlay-theme-rgb) / .1) !important;
   }
@@ -656,20 +662,6 @@ div[author="Quartyn"] {
   }
   .qnav.qua-small .qnav-link-space {
     display: none !important;
-  }
-  .qnav.qua-small .quser-profile-link {
-    justify-content: center;
-    height: 50px;
-    padding: 0 !important;
-    margin-inline: 10px;
-    margin-top: 15px;
-  }
-  .qnav.qua-small .quser-profile-link qimg {
-    width: 35px;
-    height: 35px;
-  }
-  .qnav.qua-small .quser-profile-link :not(qdiv qimg) {
-    color: transparent;
   }
   .qnav.qua-small qlink-group[qscroll] {
     overflow: auto;
@@ -746,8 +738,7 @@ div[author="Quartyn"] {
     display: none;
   }
 
-  .qua-navigation-link:not([aria-current="true"]):hover,
-  .qua-overlay-user:not([aria-current="true"]):hover {
+  .qua-navigation-link:not([aria-current="true"]):hover {
     background: rgb(var(--qua-overlay-theme-rgb) / 0.05);
   }
   /* #endregion */
@@ -768,9 +759,6 @@ div[author="Quartyn"] {
     justify-content: center;
   }
   .qua-overlay__navigation--modern > .qua-navigation qua-separator {
-    display: none;
-  }
-  .qua-overlay__navigation--modern .qua-overlay-user {
     display: none;
   }
   .qua-overlay__navigation--modern qlink-group {
@@ -826,101 +814,17 @@ div[author="Quartyn"] {
   /* #endregion */
 
   /* #region Account Profile Link */
-  .quser-profile-link {
-    background: transparent;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 5px;
-    margin: 5px;
-    border-radius: 12px;
+  .qua-overlay_user-link {
+    gap: 15px !important;
+    padding: 15px 20px !important;
+    color: var(--qua-overlay-text-color) !important;
   }
-  .quser-profile-link:not([qactive]):hover {
-    background: rgba(110, 110, 110, 0.1) !important;
-  }
-  .quser-profile-link[qactive] {
-    background: linear-gradient(71deg, #3c50fa78, #8500ffe0);
-    box-shadow: 0 0 50px 1px #3c50fa7d;
-    z-index: 6;
-  }
-  .qua-overlay-user__image {
-    position: relative;
-  }
-  .qua-overlay-user__data {
-    display: flex;
-    flex-direction: column;
-    max-width: 100%;
-  }
-  .qua-overlay-user__data-container {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-  }
-  .qua-overlay-navigation-profile-picture {
-    margin: 0 !important;
-    padding: 0 !important;
-    display: flex !important;
-    width: 50px !important;
-  }
-  .qua-overlay-user__data-name {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: var(--qua-overlay-text-color);
-    font-size: 15px;
-    margin: 0;
-    padding: 0;
-    font-family: var(--qua-overlay-text-family) !important;
-    font-weight: 400;
-    letter-spacing: 1px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-  .qua-overlay-user__data-id {
-    margin: 0;
-    padding: 0;
-    flex: 0 0 fit-content;
-    color: var(--qua-overlay-text-color-secondary);
-    font-family: var(--qua-overlay-text-family);
-  }
-  .qua-overlay-user__data-id:empty::before {
-    display: none !important;
-    content: '' !important;
-  }
-  .qua-overlay-user__data-id::before {
-    margin: 0;
-    padding: 0;
-    content: '#';
-    color: var(--qua-overlay-text-color-secondary);
-    font-size: inherit;
-    font-family: inherit;
-  }
-  .qua-overlay-user__data-rank {
-    background-color: rgb(var(--qua-overlay-theme-rgb)/ 0.2);
-    border-radius: 4px;
-    text-align: center;
-    width: fit-content;
-    padding: 4px 10px;
-    color: var(--qua-overlay-theme);
-    font-size: 12px;
-    margin-top: 5px;
-  }
-
-  /* #endregion */
-
-  /* #region Account Button #account #link */
-  .qua-overlay-user {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 10px 7px;
-    gap: 10px;
-    border-radius: 12px;
-    cursor: pointer;
+  .qua-overlay_user-link_profile-picture {
+    width: 30px !important;
+    height: 30px !important;
+    aspect-ratio: 1 / 1 !important;
+    border: 1px solid var(--qua-overlay-border-color) !important;
+    border-radius: 9999px !important;
   }
   /* #endregion */
 

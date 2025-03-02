@@ -633,29 +633,29 @@ function setUserData() {
         return true;
     }
     // When is logged in
+    const useIcon = true;
     navigationLink.innerHTML = `
-    <div class="qua-overlay-user__image">
-        <qua-button class="qua-overlay-account-picture qua-overlay-navigation-profile-picture">
-            <div class="qua-overlay-account-picture_image" qua-data-id="user://image -default"></div>
-            <div class="qua-overlay-account-picture_image" qua-data-id="user://image"></div>
-        </qua-button>
-    </div>
-    <div class="qua-overlay-user__data">
-        <qua-label class="qua-overlay-user__data-container">
-            <span class="qua-overlay-user__data-name" qua-overlay-action="user.fullname">Loading..</span>
-        </qua-label>
-    </div>
+        ${useIcon ? `
+            <img class="qua-overlay_user-link_profile-picture" src="" alt="User's profile picture" qua-overlay-action="account://profile-picture">
+        ` : `
+        <svg qua-source:google-material-icons xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Z"/></svg>
+        `}
+        <qua-label class="qua-navigation-link-title" qua-overlay-action="user.fullname"></qua-label>
     `;
     navigationLink.ariaLabel = "My account";
     navigationLink.setAttribute('aria-label', 'My account');
-    navigationLink.className = "qua-overlay-user";
+    navigationLink.classList.add('qua-overlay_user-link');
     let fullName = overlaySelectAll('user.fullname');
     let userName = overlaySelectAll('user.username');
+    const profilePicture = overlaySelect('account://profile-picture');
     fullName.forEach(element => {
         element.textContent = settings?.account?.name;
     });
     userName.forEach(element => {
         element.textContent = "@" + settings.account.username;
+    });
+    profilePicture.addEventListener('error', function() {
+        profilePicture.src = createAvatarLetter(settings?.account?.name ?? "i", .55);
     });
     return true;
 }
@@ -1512,13 +1512,13 @@ function clearSettings() {
 }
 
 // #region Avatar Handler
-function createAvatarLetter(name) {
+function createAvatarLetter(name, _font_size = 0.45) {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     const size = 100; // Size of the canvas and the resulting image
     const backgroundColor = 'rgba(255, 255, 255, .03)'; // The background color for the letter
     const textColor = getComputedStyle(document.documentElement).getPropertyValue('--qua-overlay-theme').trim(); // Text color of the letter (Get color of selected theme)
-    const fontSize = size * 0.45; // Set the font size relative to the canvas size
+    const fontSize = size * _font_size; // Set the font size relative to the canvas size
   
     canvas.width = size;
     canvas.height = size;
