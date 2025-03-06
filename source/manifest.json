@@ -35,6 +35,8 @@
     },
     "action": {},
     "permissions": [
+        "activeTab",
+        "tabs",
         "storage"
     ],
     "host_permissions": [
@@ -87,6 +89,7 @@
             "ui/*",
             "src/translations.json",
             "fonts/*",
+            "src/scripts/*",
             "images/*"
         ]
     }]
