@@ -63,21 +63,52 @@ function detectBrowser() {
 // #endregion
 
 // #region Debug Controller
-let quartyn = {
-    // getCallerInfo: getCallerInfo,
-    log: message => {
-        console.log(`%cQuartTools%c ${message}`, 'color: #fff; font-family: "Outfit", sans-serif; padding: 2px 7px; margin-right: 5px; background-color: #8d87fd; border-radius: 4px;', 'font-family: Outfit, sans-serif; color: #fff;');
+const quartyn = {
+    getCallerInfo: function() {
+        const err = new Error();
+        const stack = err.stack.split('\n');
+
+        const callerLine = stack[2].trim();
+        const callerLink = callerLine.split('@').pop();
+
+        return {
+            link: callerLink,
+            line: callerLine,
+        };
     },
-    warn: message => {
-        console.log(`%cQuartTools%c ${message}`, 'color: #fff; font-family: "Outfit", sans-serif; padding: 2px 7px; margin-right: 5px; background-color: #8d87fd; border-radius: 4px;', 'font-family: Outfit, sans-serif; color: #ffd151;');
+    log: (message, tag = 'system') => {
+        console.log(`%cQuartTools %c[%c${tag}%c] %c${message}`,
+            'color: rgb(124, 101, 255); font-weight: bold;',
+            'color: rgb(124, 101, 255);', '',
+            'color: rgb(131, 110, 254);', '');
     },
-    error: (message, value = false) => {
-        // let caller = quartyn.getCallerInfo();
-        // let callerName = caller.fileName.split('/').pop();
-        console.log(`%cQuartTools%c ${message}`, 'color: #fff; font-family: "Outfit", sans-serif; padding: 2px 7px; margin-right: 5px; background-color: #8d87fd; border-radius: 4px;', 'font-family: Outfit, sans-serif; color: #ff5555;');
+    info: (message, tag = 'system') => {
+        console.info(`%cQuartTools %c[%c${tag}%c] %c[INFO] %c${message}`,
+            'color: rgb(124, 101, 255); font-weight: bold;',
+            'color: rgb(124, 101, 255);', '',
+            'color: rgb(131, 110, 254);', 'color: rgb(124, 101, 255);', '');
     },
-    success: message => {
-        console.log(`%cQuartTools%c ${message}`, 'color: #fff; font-family: "Outfit", sans-serif; padding: 2px 7px; margin-right: 5px; background-color: #8d87fd; border-radius: 4px;', 'font-family: Outfit, sans-serif; color: #41ff6a;');
+    warn: (message, tag = 'system') => {
+        console.log(`%cQuartTools %c[%c${tag}%c] %c[WARNING] %c${message}`,
+            'color: rgb(124, 101, 255); font-weight: bold;',
+            'color: rgb(124, 101, 255);', '',
+            'color: rgb(131, 110, 254);', 'color: #ffd151', '');
+    },
+    error: (message, tag = 'system', error) => {
+        const caller = quartyn.getCallerInfo();
+        console.groupCollapsed(`%cQuartTools %c[%c${tag}%c] %c[ERROR] %c${message}`,
+            'color: rgb(124, 101, 255); font-weight: bold;',
+            'color: rgb(124, 101, 255);', '',
+            'color: rgb(131 110 254);', 'color: #ff5555;', '');
+        console.error(caller.link);
+        if (error) console.error(error);
+        console.groupEnd();
+    },
+    success: (message, tag = 'system') => {
+        console.info(`%cQuartTools %c[%c${tag}%c] %c[SUCCESS] %c${message}`,
+            'color: rgb(124, 101, 255); font-weight: bold;',
+            'color: rgb(124, 101, 255);', '',
+            'color: rgb(131 110 254);', 'color: #41ff6a;', '');
     }
 }
 // #endregion
@@ -139,6 +170,22 @@ function deepMerge(target, source) {
             target[key] = source[key];
         }
     }
+}
+function getSettings(what) {
+    return BrowserApi.storage.sync.get('settings')
+    .then(res => {
+        const keys = what.split('.');
+        let value = res.settings;
+
+        for (let i = 0; i < keys.length; i++) {
+            value = value[keys[i]];
+            if (value === undefined) return null;
+        }
+        return value;
+    }).catch(err => {
+        console.error(err);
+        return null;
+    });
 }
 //#endregion
 
